@@ -1,0 +1,5 @@
+# Tracepoint Minimal Dependencies (Phase 1)
+# Note: Python 3.14 includes built-in sqlite3.
+pandas>=2.2.0
+pydantic>=2.7.0
+pytest>=8.0.0

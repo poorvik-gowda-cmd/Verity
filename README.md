@@ -155,3 +155,36 @@ Before submitting, confirm that:
 - `code.zip` includes your runnable code, `README.md`, `code/evaluation/evaluation_report.md`, and `code/evaluation/usage_report.md`;
 - `log.txt` follows the `AGENTS.md` turn format and is uploaded to the `chat_transcript` slot; and
 - no API keys, credentials, real personal data, or sensitive configuration values are included.
+
+---
+
+## Tracepoint: Project Foundation & Verification (Phase 1)
+
+**Tracepoint** is the evidence-grounded deletion auditing system implemented for this challenge.
+
+### Architecture & Foundation Overview
+- **Hybrid Evidence-First Design:** Integrates deterministic parsing, policy-as-code, and temporal event reconstruction.
+- **Contract Models:** Strict Pydantic models in `code/tracepoint/models.py` enforce valid Phase -> Operation -> State combinations.
+- **Privacy First:** Automatic PII masking helpers in `code/tracepoint/utils.py`.
+- **Full Architecture Blueprint:** Documented in [`docs/architecture.md`](./docs/architecture.md).
+
+### PowerShell Commands (Run from Repository Root)
+
+1. **Run Dataset Inspection & Integrity Verification:**
+   ```powershell
+   python code/inspect_dataset.py
+   ```
+   Or output structured JSON:
+   ```powershell
+   python code/inspect_dataset.py --json
+   ```
+
+2. **Run Pytest Test Suite:**
+   ```powershell
+   pytest -v
+   ```
+
+3. **Package Submission Bundle (When Complete):**
+   ```powershell
+   Compress-Archive -Path README.md, code -DestinationPath code.zip -Force
+   ```
