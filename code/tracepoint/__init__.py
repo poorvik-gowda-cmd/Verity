@@ -5,5 +5,21 @@ try:
 except ImportError:
     from code.config import ProjectConfig, config
 
-__version__ = "0.1.0"
-__all__ = ["ProjectConfig", "config"]
+from .resolver import (
+    IdentityLink,
+    IdentityResolver,
+    MatchMethod,
+    ResolutionResult,
+    ResolutionStatus,
+)
+
+__version__ = "0.2.0"
+__all__ = [
+    "ProjectConfig",
+    "config",
+    "IdentityLink",
+    "IdentityResolver",
+    "MatchMethod",
+    "ResolutionResult",
+    "ResolutionStatus",
+]
