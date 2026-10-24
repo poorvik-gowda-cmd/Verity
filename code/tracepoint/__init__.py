@@ -39,7 +39,21 @@ from .interpretation import (
     validate_and_filter_grounding,
 )
 
-__version__ = "0.4.0"
+from .policy import (
+    DataCategory,
+    FlowState,
+    ObservedState,
+    PolicyEvaluationResult,
+    PolicyEvaluator,
+    PolicyFinding,
+    PolicyRule,
+    PolicyRuleRegistry,
+    RequiredAction,
+    ResurrectionRisk,
+    ResurrectionRiskAnalyzer,
+)
+
+__version__ = "0.5.0"
 __all__ = [
     "ProjectConfig",
     "config",
@@ -70,4 +84,15 @@ __all__ = [
     "UsageMetrics",
     "UsageTracker",
     "validate_and_filter_grounding",
+    "DataCategory",
+    "FlowState",
+    "ObservedState",
+    "PolicyEvaluationResult",
+    "PolicyEvaluator",
+    "PolicyFinding",
+    "PolicyRule",
+    "PolicyRuleRegistry",
+    "RequiredAction",
+    "ResurrectionRisk",
+    "ResurrectionRiskAnalyzer",
 ]
