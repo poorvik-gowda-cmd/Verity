@@ -12,8 +12,20 @@ from .resolver import (
     ResolutionResult,
     ResolutionStatus,
 )
+from .timeline import (
+    Contradiction,
+    ContradictionDetector,
+    ContradictionType,
+    EventKind,
+    EventSource,
+    Timeline,
+    TimelineBuilder,
+    TimelineEvent,
+    format_timestamp,
+    parse_timestamp,
+)
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __all__ = [
     "ProjectConfig",
     "config",
@@ -22,4 +34,14 @@ __all__ = [
     "MatchMethod",
     "ResolutionResult",
     "ResolutionStatus",
+    "Contradiction",
+    "ContradictionDetector",
+    "ContradictionType",
+    "EventKind",
+    "EventSource",
+    "Timeline",
+    "TimelineBuilder",
+    "TimelineEvent",
+    "format_timestamp",
+    "parse_timestamp",
 ]
