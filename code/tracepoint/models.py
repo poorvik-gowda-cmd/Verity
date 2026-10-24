@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from enum import Enum
 from typing import Any, Dict, List, Literal, Optional
 from pydantic import BaseModel, Field, field_validator, model_validator
@@ -148,3 +149,17 @@ class OutputRow(BaseModel):
                     "INCOMPLETE cases must include FINDING, REMEDIATION, and VERIFICATION phases"
                 )
         return self
+
+    @property
+    def steps_json(self) -> str:
+        """Serialize steps as a valid JSON string."""
+        return json.dumps([s.model_dump(mode="json") for s in self.steps], separators=(",", ":"))
+
+    def to_csv_dict(self) -> Dict[str, str]:
+        """Convert to dict matching output.csv columns: case_id,deletion_status,steps_json."""
+        return {
+            "case_id": self.case_id,
+            "deletion_status": self.deletion_status.value,
+            "steps_json": self.steps_json,
+        }
+

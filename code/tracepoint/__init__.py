@@ -53,7 +53,17 @@ from .policy import (
     ResurrectionRiskAnalyzer,
 )
 
-__version__ = "0.5.0"
+from .decision import (
+    CaseDecision,
+    DecisionEngine,
+    RequestClassifier,
+    StepGenerator,
+    StepValidator,
+    ValidationDiagnostic,
+    ValidationResult,
+)
+
+__version__ = "0.6.0"
 __all__ = [
     "ProjectConfig",
     "config",
@@ -95,4 +105,11 @@ __all__ = [
     "RequiredAction",
     "ResurrectionRisk",
     "ResurrectionRiskAnalyzer",
+    "CaseDecision",
+    "DecisionEngine",
+    "RequestClassifier",
+    "StepGenerator",
+    "StepValidator",
+    "ValidationDiagnostic",
+    "ValidationResult",
 ]
