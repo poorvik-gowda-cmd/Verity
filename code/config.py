@@ -52,6 +52,12 @@ class ProjectConfig:
     # Final submission target
     root_output_csv: Path
 
+    # Gemini API configuration
+    gemini_api_key: Optional[str] = None
+    gemini_model: str = "gemini-2.5-flash"
+    gemini_timeout_seconds: float = 10.0
+    gemini_max_retries: int = 1
+
     @classmethod
     def load(cls, custom_repo_root: Path | str | None = None) -> ProjectConfig:
         """Load configuration with optional environment variable overrides."""
@@ -61,10 +67,34 @@ class ProjectConfig:
             env_root = os.getenv("TRACEPOINT_REPO_ROOT")
             root = Path(env_root).resolve() if env_root else find_repo_root()
 
+        # Load .env if present
+        try:
+            from dotenv import load_dotenv
+            env_file = root / ".env"
+            if env_file.exists():
+                load_dotenv(dotenv_path=env_file, override=False)
+        except ImportError:
+            pass
+
         env_dataset = os.getenv("TRACEPOINT_DATASET_DIR")
         dataset = Path(env_dataset).resolve() if env_dataset else root / "dataset"
 
         evidence = dataset / "evidence"
+
+        api_key = os.getenv("GEMINI_API_KEY")
+        model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        timeout_str = os.getenv("GEMINI_TIMEOUT_SECONDS", "10.0")
+        retries_str = os.getenv("GEMINI_MAX_RETRIES", "1")
+
+        try:
+            timeout_sec = float(timeout_str)
+        except ValueError:
+            timeout_sec = 10.0
+
+        try:
+            max_retries = int(retries_str)
+        except ValueError:
+            max_retries = 1
 
         return cls(
             repo_root=root,
@@ -88,6 +118,10 @@ class ProjectConfig:
             evidence_logs_dir=evidence / "logs",
             evidence_records_dir=evidence / "records",
             root_output_csv=root / "output.csv",
+            gemini_api_key=api_key,
+            gemini_model=model,
+            gemini_timeout_seconds=timeout_sec,
+            gemini_max_retries=max_retries,
         )
 
 

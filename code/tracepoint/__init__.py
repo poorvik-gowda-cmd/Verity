@@ -24,8 +24,22 @@ from .timeline import (
     format_timestamp,
     parse_timestamp,
 )
+from .interpretation import (
+    DeterministicFallbackInterpreter,
+    EvidenceClaim,
+    EvidenceClaimType,
+    EvidenceSnippet,
+    GeminiExtractionOutput,
+    GeminiInterpreter,
+    InterpretationCache,
+    InterpretationResult,
+    InterpretationTarget,
+    UsageMetrics,
+    UsageTracker,
+    validate_and_filter_grounding,
+)
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __all__ = [
     "ProjectConfig",
     "config",
@@ -44,4 +58,16 @@ __all__ = [
     "TimelineEvent",
     "format_timestamp",
     "parse_timestamp",
+    "DeterministicFallbackInterpreter",
+    "EvidenceClaim",
+    "EvidenceClaimType",
+    "EvidenceSnippet",
+    "GeminiExtractionOutput",
+    "GeminiInterpreter",
+    "InterpretationCache",
+    "InterpretationResult",
+    "InterpretationTarget",
+    "UsageMetrics",
+    "UsageTracker",
+    "validate_and_filter_grounding",
 ]
