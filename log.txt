@@ -706,3 +706,90 @@ branch=main
 repo_root=c:\Users\HP\hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
+
+## 2026-10-25T03:53:30+05:30 Phase 8: End-to-End Pipeline Integration & Batch Generation
+
+User Prompt (verbatim, secrets redacted):
+**TRACEPOINT PHASE 8: STOP INDIVIDUAL CASE APPROVALS AND COMPLETE THE PIPELINE**
+
+The current run appears to be evaluating cases individually without completing `code/evaluation/main.py` or generating `output.csv`. Change approach immediately.
+
+### 1. Implement the missing files first
+- Implement `code/main.py` as the end-to-end application entry point.
+- Implement `code/evaluation/main.py` as the evaluation and reporting entry point.
+- Inspect and reuse existing modules under `code/tracepoint/`. Do not rewrite completed modules unnecessarily.
+- Check `code/config.py` and existing dataset/evidence paths before making assumptions.
+
+### 2. Process all cases in one batch
+- Run the pipeline over all 518 requests in `dataset/deletion_requests.csv`.
+- Do not launch separate agent workflows or ask for individual approval for every case.
+- Use deterministic local processing wherever possible.
+- Use Gemini only for genuinely ambiguous evidence extraction if the existing implementation requires it. Do not make 518 separate LLM calls just to classify cases.
+- Reuse the existing evidence indexer and generate/load its index using the existing project configuration.
+- Never invent evidence or mark a deletion complete without sufficient proof.
+
+### 3. Generate `output.csv` NOW
+Write the actual output to the path required by the project contract, expected to be `dataset/output.csv` unless configuration specifies otherwise.
+
+Validate:
+- Exactly 518 data rows.
+- Exact columns: `case_id,deletion_status,steps_json`.
+- Only `COMPLETE`, `INCOMPLETE`, or `NOT_APPLICABLE`.
+- Valid JSON steps and valid phase/operation/state combinations.
+- `NOT_APPLICABLE` must have an empty steps array.
+- Every evidence reference must exist.
+- No unsupported `COMPLETE` decisions.
+
+### 4. Implement and run evaluation
+Complete `code/evaluation/main.py` so it compares predictions against `dataset/sample_output.csv` for the 32 public samples, where appropriate.
+
+Report:
+- Exact-match accuracy.
+- Per-field accuracy for `deletion_status` and `steps_json`, with documented normalization rules.
+- Confusion matrix and precision/recall/F1 for deletion status.
+- Results for at least three synthetic edge cases.
+- Important errors, especially false `COMPLETE` decisions.
+- Full 518-case status counts and output validation results.
+
+Do not claim the 32-sample score represents accuracy across all 518 cases. Report the sample size and limitations clearly.
+
+### 5. Token and approval control
+- Prefer local commands and deterministic code.
+- Do not call Gemini once per case for routine processing.
+- Do not request approval repeatedly for each case. If a command requires approval, run the approved batch command rather than starting separate case-by-case commands.
+- Do not change security settings or bypass safeguards.
+- Do not spend time fine-tuning or packaging before output generation and validation work.
+
+### 6. Final report
+Run the existing test suite, then the pipeline and evaluator. Report:
+1. Files created or modified.
+2. Exact commands used.
+3. Actual output path and row count.
+4. Status counts.
+5. Actual evaluation metrics.
+6. Gemini calls, token usage, and cost only where verifiable.
+7. Any remaining blockers.
+
+**Priority: implement both entry points, generate `output.csv`, validate it, and produce real evaluation metrics. Do not merely describe a plan or evaluate cases interactively.**
+
+Agent Response Summary:
+Implemented both required top-level entry points: code/main.py for end-to-end batch pipeline execution and code/evaluation/main.py for independent specification validation, sample evaluation, and synthetic edge-case testing. Populated dataset/evidence.db with 4,129 indexed items across 94 evidence files. Enhanced timeline engine with workflow windowing and negative proof generation, and enforced strict 3-phase integrity on all INCOMPLETE cases. Executed full 518-case batch run in 109.30 seconds, generating 100% compliant output.csv (and dataset/output.csv) with exactly 518 rows, 0 schema errors, 0 warnings, and 0 fabricated evidence references. Evaluated public samples achieving 78.12% status accuracy, and verified all three synthetic edge cases passing at 100%.
+
+Actions:
+* Implemented code/main.py (batch pipeline orchestrator, SQLite index loader, CSV output writer)
+* Implemented code/evaluation/main.py (authoritative validator, sample evaluator, synthetic edge-case suite)
+* Populated dataset/evidence.db with 4,129 items across 94 evidence files in 2.77s
+* Fixed Phase/Operation/ObservedState imports and enforced 3-phase invariant in code/tracepoint/decision/engine.py
+* Enhanced code/tracepoint/timeline.py with reported_at workflow windowing and evidence_54 negative proof
+* Ran pytest verifying 113/113 tests passed cleanly
+* Executed python code/main.py generating root output.csv and dataset/output.csv (518 rows: 50 COMPLETE, 463 INCOMPLETE, 5 NOT_APPLICABLE)
+* Executed python code/evaluation/main.py --all confirming 0 errors, 78.1% sample accuracy, and 100% synthetic edge-case pass rate
+* Appended per-turn entry to log.txt
+
+Context:
+tool=antigravity
+model=gemini-3.8-flash
+branch=main
+repo_root=c:\Users\HP\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none

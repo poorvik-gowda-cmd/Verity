@@ -34,7 +34,36 @@ def extract_identifiers(text: str) -> List[str]:
     for match in USER_ID_REGEX.findall(text):
         if match not in found:
             found.append(match)
+    for match in RESOURCE_ID_REGEX.findall(text):
+        if match not in found:
+            found.append(match)
     return found
+
+
+def infer_system_id(resource_id: Optional[str]) -> Optional[str]:
+    """Infer system_id deterministically from canonical resource_id prefix."""
+    if not resource_id:
+        return None
+    rid = str(resource_id).lower()
+    if rid.startswith("account_"):
+        return "account_service"
+    elif rid.startswith("analytics_"):
+        return "analytics_platform"
+    elif rid.startswith("backup_"):
+        return "backup_service"
+    elif rid.startswith("export_"):
+        return "export_service"
+    elif rid.startswith("tombstone_"):
+        return "identity_service"
+    elif rid.startswith("data_flow_"):
+        return "integration_service"
+    elif rid.startswith("search_"):
+        return "search_service"
+    elif rid.startswith("audit_record_") or rid.startswith("audit_"):
+        return "security_service"
+    elif rid.startswith("support_"):
+        return "support_platform"
+    return None
 
 
 def parse_sql_file(
@@ -92,6 +121,8 @@ def parse_sql_file(
                     resource_id = embedded_json["resource_id"]
                 if not origin_system and "origin_system" in embedded_json:
                     origin_system = embedded_json["origin_system"]
+                if not origin_system and resource_id:
+                    origin_system = infer_system_id(resource_id)
 
                 ids = extract_identifiers(row_str)
 
@@ -179,8 +210,15 @@ def parse_json_file(
             rec_str = json.dumps(record, default=str)
             resource_id = record.get("resource_id") if isinstance(record, dict) else None
             system_id = record.get("system") or origin if isinstance(record, dict) else origin
+            if not system_id and resource_id:
+                system_id = infer_system_id(resource_id)
             timestamp = record.get("recorded_at") or exported_at if isinstance(record, dict) else exported_at
             ids = extract_identifiers(rec_str)
+            if isinstance(record, dict):
+                for k in ("owner_email", "email", "customer_reference", "subject_reference"):
+                    v = record.get(k)
+                    if v and str(v).strip() and str(v).lower() != "null":
+                        ids.append(str(v).strip())
 
             yield ExtractedItem(
                 source_path=str(file_path),
@@ -191,12 +229,48 @@ def parse_json_file(
                 system_id=str(system_id) if system_id else None,
                 resource_id=str(resource_id) if resource_id else None,
                 timestamp=timestamp,
-                identifiers=ids,
+                identifiers=list(set(ids)),
                 metadata={"record_index": rec_idx + 1},
                 status=ExtractionStatus.PARSED,
             )
 
-    # Scenario C: Generic JSON dict or list
+    # Scenario C: Service exports dictionary (service_resource_export_*.json)
+    elif isinstance(data, dict) and "service_exports" in data:
+        exported_at = data.get("exported_at") or default_captured_at
+        service_exports = data.get("service_exports", {})
+        for svc_name, svc_data in service_exports.items():
+            if not isinstance(svc_data, dict):
+                continue
+            for list_key, items_list in svc_data.items():
+                if not isinstance(items_list, list):
+                    continue
+                for item_idx, item in enumerate(items_list):
+                    if not isinstance(item, dict):
+                        continue
+                    rec_str = json.dumps(item, default=str)
+                    res_id = item.get("resource_id")
+                    observed_at = item.get("observed_at") or exported_at
+                    ids = extract_identifiers(rec_str)
+                    for k in ("customer_reference", "subject_reference", "owner_email", "requester_email", "customer_email", "email", "query"):
+                        v = item.get(k)
+                        if v and str(v).strip() and str(v).lower() != "null":
+                            ids.append(str(v).strip())
+
+                    yield ExtractedItem(
+                        source_path=str(file_path),
+                        evidence_id=evidence_id,
+                        source_type=SourceType.JSON_RECORD,
+                        locator=f"{svc_name}:{list_key}/{item_idx + 1}",
+                        content=rec_str,
+                        system_id=svc_name,
+                        resource_id=str(res_id) if res_id else None,
+                        timestamp=observed_at,
+                        identifiers=list(set(ids)),
+                        metadata={"service": svc_name, "category_key": list_key},
+                        status=ExtractionStatus.PARSED,
+                    )
+
+    # Scenario D: Generic JSON dict or list
     else:
         content_str = json.dumps(data, default=str)
         ids = extract_identifiers(content_str)
@@ -247,7 +321,16 @@ def parse_log_file(
         res_match = re.search(r"\bresource_id=([^\s]+)", line_clean)
         resource_id = res_match.group(1) if res_match else None
 
+        if not system_id and resource_id:
+            system_id = infer_system_id(resource_id)
+
         ids = extract_identifiers(line_clean)
+        for key in ("lookup_key", "subject_reference", "customer_reference", "correlation_key", "email", "customer_email", "requester_email"):
+            m = re.search(rf"\b{key}=([^\s]+)", line_clean)
+            if m:
+                val = m.group(1).strip().strip('"').strip("'")
+                if val and val.lower() != "null" and val not in ids:
+                    ids.append(val)
 
         yield ExtractedItem(
             source_path=str(file_path),
@@ -386,12 +469,17 @@ def parse_pdf_file(
     if text_chunks:
         full_text = " | ".join(text_chunks)
         ids = extract_identifiers(full_text)
+        res_matches = RESOURCE_ID_REGEX.findall(full_text)
+        res_id = res_matches[0] if res_matches else None
+        sys_id = infer_system_id(res_id) if res_id else None
         yield ExtractedItem(
             source_path=str(file_path),
             evidence_id=evidence_id,
             source_type=SourceType.DOCUMENT_PDF,
             locator="document:extracted_stream",
             content=full_text,
+            system_id=sys_id,
+            resource_id=res_id,
             timestamp=default_captured_at,
             identifiers=ids,
             metadata={"token_count": len(text_chunks)},

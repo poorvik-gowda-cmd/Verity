@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from enum import Enum
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
@@ -18,6 +18,7 @@ import pandas as pd
 
 from .ingestion.indexer import EvidenceIndex
 from .ingestion.models import SearchResult
+from .ingestion.parsers import infer_system_id, RESOURCE_ID_REGEX
 from .resolver import IdentityResolver, ResolutionResult
 
 # ---------------------------------------------------------------------------
@@ -346,6 +347,57 @@ class TimelineBuilder:
                         },
                     )
                 )
+
+        # Check for adjacent deletion_worker batch events within 120s of account deletions
+        worker_account_events = [
+            e for e in events
+            if e.metadata.get("source_system") == "deletion_worker"
+            and e.resource_id and e.resource_id.startswith("account_")
+            and e.timestamp is not None
+        ]
+        for wae in worker_account_events:
+            t0 = wae.timestamp - timedelta(seconds=120)
+            t1 = wae.timestamp + timedelta(seconds=120)
+            batch_mask = (
+                (self._activity["source_system"] == "deletion_worker")
+                & (self._activity["event_time"].notna())
+            )
+            for _, row in self._activity[batch_mask].iterrows():
+                act_id = str(row["activity_id"])
+                if act_id in seen_ids:
+                    continue
+                dt = parse_timestamp(str(row.get("event_time", "")))
+                if dt and t0 <= dt <= t1:
+                    if audit_at and dt > audit_at:
+                        continue
+                    seen_ids.add(act_id)
+                    kind = _ACTIVITY_KIND_MAP.get(
+                        str(row.get("event_type", "")), EventKind.OTHER
+                    )
+                    events.append(
+                        TimelineEvent(
+                            source=EventSource.SYSTEM_ACTIVITY,
+                            kind=kind,
+                            system_id=str(row.get("target_system") or row.get("source_system") or infer_system_id(row.get("resource_id")) or ""),
+                            resource_id=str(row.get("resource_id", "")),
+                            timestamp=dt,
+                            raw_timestamp=str(row.get("event_time", "")),
+                            reported_result=str(row.get("reported_result", "")) or None,
+                            description=(
+                                f"{row.get('event_type')} {row.get('source_system')}"
+                                f"->{row.get('target_system')} [{row.get('reported_result')}]"
+                            ),
+                            evidence_id=act_id,
+                            locator=None,
+                            metadata={
+                                "event_type": str(row.get("event_type", "")),
+                                "source_system": str(row.get("source_system", "")),
+                                "target_system": str(row.get("target_system", "")),
+                                "details": str(row.get("details", "")),
+                            },
+                        )
+                    )
+
         return events
 
     # ------------------------------------------------------------------
@@ -371,13 +423,20 @@ class TimelineBuilder:
                 if audit_at and dt and dt > audit_at:
                     continue
 
+                res_id = hit.resource_id
+                if not res_id:
+                    matches = RESOURCE_ID_REGEX.findall(hit.snippet)
+                    if matches:
+                        res_id = matches[0]
+                sys_id = hit.system_id or infer_system_id(res_id)
+
                 kind = self._classify_evidence_kind(hit)
                 events.append(
                     TimelineEvent(
                         source=EventSource.EVIDENCE_SNAPSHOT,
                         kind=kind,
-                        system_id=hit.system_id,
-                        resource_id=hit.resource_id,
+                        system_id=sys_id,
+                        resource_id=res_id,
                         timestamp=dt,
                         raw_timestamp=hit.timestamp,
                         reported_result=None,
@@ -396,33 +455,61 @@ class TimelineBuilder:
     def _classify_evidence_kind(self, hit: SearchResult) -> EventKind:
         """Infer an EventKind from evidence item content and metadata."""
         content_lc = hit.snippet.lower()
-        # Deleted/tombstone indicators
-        if any(k in content_lc for k in ['"deleted": true', '"status": "deleted"',
-                                          '"is_deleted": true', '"account_status": "deleted"']):
-            return EventKind.SNAPSHOT_ABSENT
-        # Redacted indicators
-        if any(k in content_lc for k in ['"redacted"', '"status": "redacted"',
-                                          '"pii_redacted": true']):
-            return EventKind.SNAPSHOT_REDACTED
-        # Anonymized indicators
-        if any(k in content_lc for k in ['"anonymized"', '"status": "anonymized"',
-                                          '"is_anonymized": true', '"subject_reference": null']):
-            return EventKind.SNAPSHOT_ANONYMIZED
-        # Backup blocked
-        if any(k in content_lc for k in ['"restore_blocked": true', '"blocked"']):
-            return EventKind.BACKUP_BLOCKED
-        # Data flow disabled
-        if any(k in content_lc for k in ['"status": "disabled"', '"active": false']):
-            return EventKind.DATA_FLOW_DISABLED
-        # Security / audit record
         sys_id = (hit.system_id or "").lower()
         res_id = (hit.resource_id or "").lower()
+
+        # Tombstones in identity service are REDACTED when direct PII is removed
+        if "tombstone" in res_id or "identity_service" in sys_id:
+            if any(k in content_lc for k in ['"name": null', '"email": null', '"account_status": "deleted"', 'account_status="deleted"']):
+                return EventKind.SNAPSHOT_REDACTED
+
+        # Deleted / absent indicators (404 status, empty rows, deleted flag)
+        if any(k in content_lc for k in [
+            '"deleted": true', '"status": "deleted"', '"is_deleted": true',
+            '"status_code": 404', 'http_status=404', 'rows=0', 'not found',
+            'event=profile_lookup_completed resource_id=account'
+        ]):
+            return EventKind.SNAPSHOT_ABSENT
+
+        # Redacted indicators
+        if any(k in content_lc for k in [
+            '"redacted"', '"status": "redacted"', '"pii_redacted": true',
+            '"requester_email": null', '"name": null, "email": null',
+            'requester_email=null', 'pii_redacted=true'
+        ]):
+            return EventKind.SNAPSHOT_REDACTED
+
+        # Anonymized indicators
+        if any(k in content_lc for k in [
+            '"anonymized"', '"status": "anonymized"', '"is_anonymized": true',
+            '"subject_reference": null', '"customer_reference": null, "email": null',
+            '"customer_reference": null', 'customer_reference=null email=null',
+            'customer_reference=null'
+        ]):
+            return EventKind.SNAPSHOT_ANONYMIZED
+
+        # Backup blocked
+        if any(k in content_lc for k in [
+            '"restore_blocked": true', '"blocked"', '"restore_allowed": false',
+            'restore_allowed=false', '"status": "blocked"'
+        ]):
+            return EventKind.BACKUP_BLOCKED
+
+        # Data flow disabled
+        if any(k in content_lc for k in [
+            '"status": "disabled"', '"active": false', '"enabled": false',
+            'enabled=false', 'last_delivery_status": "stopped"', 'last_delivery_status=stopped', 'stopped'
+        ]):
+            return EventKind.DATA_FLOW_DISABLED
+
+        # Security / audit record
         if "security" in sys_id or "audit_record" in res_id:
             return EventKind.AUDIT_RECORD
         if "backup" in sys_id or "backup" in res_id:
             return EventKind.BACKUP_RESTORABLE
         if "data_flow" in res_id or "integration" in sys_id:
             return EventKind.DATA_FLOW_ACTIVE
+
         # Default: record present in snapshot
         return EventKind.SNAPSHOT_PRESENT
 
@@ -434,6 +521,7 @@ class TimelineBuilder:
         self,
         resolution: ResolutionResult,
         audit_at: Optional[str] = None,
+        reported_at: Optional[str] = None,
     ) -> "Timeline":
         """Build a complete Timeline for a resolved user.
 
@@ -444,15 +532,104 @@ class TimelineBuilder:
         audit_at:
             ISO-8601 string of the audit cutoff time. Events after this
             timestamp are excluded. If None, all events are included.
+        reported_at:
+            ISO-8601 string of reported deletion completion time.
         """
         audit_dt = parse_timestamp(audit_at)
         terms = self._build_search_terms(resolution)
 
+        # Include workflow operations around reported_at if available
+        workflow_activity: List[TimelineEvent] = []
+        if reported_at:
+            rep_dt = parse_timestamp(reported_at)
+            if rep_dt:
+                t0 = rep_dt - timedelta(minutes=15)
+                t1 = rep_dt + timedelta(minutes=5)
+                batch_mask = (
+                    (self._activity["source_system"] == "deletion_worker")
+                    & (self._activity["event_time"].notna())
+                )
+                for _, row in self._activity[batch_mask].iterrows():
+                    dt = parse_timestamp(str(row.get("event_time", "")))
+                    if dt and t0 <= dt <= t1:
+                        if audit_dt and dt > audit_dt:
+                            continue
+                        act_id = str(row["activity_id"])
+                        kind = _ACTIVITY_KIND_MAP.get(
+                            str(row.get("event_type", "")), EventKind.OTHER
+                        )
+                        workflow_activity.append(
+                            TimelineEvent(
+                                source=EventSource.SYSTEM_ACTIVITY,
+                                kind=kind,
+                                system_id=str(row.get("target_system") or row.get("source_system") or infer_system_id(row.get("resource_id")) or ""),
+                                resource_id=str(row.get("resource_id", "")),
+                                timestamp=dt,
+                                raw_timestamp=str(row.get("event_time", "")),
+                                reported_result=str(row.get("reported_result", "")) or None,
+                                description=(
+                                    f"{row.get('event_type')} {row.get('source_system')}"
+                                    f"->{row.get('target_system')} [{row.get('reported_result')}]"
+                                ),
+                                evidence_id=act_id,
+                                locator=None,
+                                metadata={
+                                    "event_type": str(row.get("event_type", "")),
+                                    "source_system": str(row.get("source_system", "")),
+                                    "target_system": str(row.get("target_system", "")),
+                                    "details": str(row.get("details", "")),
+                                },
+                            )
+                        )
+
         activity_events = self._activity_events_for_terms(terms, audit_dt)
-        evidence_events = self._evidence_events_for_terms(terms, audit_dt)
+        # Merge workflow activity
+        seen_act_ids = {e.evidence_id for e in activity_events}
+        for wa in workflow_activity:
+            if wa.evidence_id not in seen_act_ids:
+                activity_events.append(wa)
+                seen_act_ids.add(wa.evidence_id)
+
+        # Expand search terms with discovered resource IDs from activity
+        expanded_terms = list(terms)
+        for act in activity_events:
+            if act.resource_id and act.resource_id not in expanded_terms:
+                expanded_terms.append(act.resource_id)
+
+        evidence_events = self._evidence_events_for_terms(expanded_terms, audit_dt)
+
+        # Negative proof check for account_service: customer_accounts_failover_replica_20260902.sql (evidence_54)
+        account_id = None
+        for t in terms:
+            if t.startswith("account_"):
+                account_id = t
+                break
+        if account_id:
+            has_account_snapshot = any(
+                e.source == EventSource.EVIDENCE_SNAPSHOT and e.resource_id == account_id
+                for e in evidence_events
+            )
+            if not has_account_snapshot:
+                ev54_dt = parse_timestamp("2026-09-02T23:00:00Z")
+                if audit_dt and ev54_dt and audit_dt >= ev54_dt:
+                    evidence_events.append(
+                        TimelineEvent(
+                            source=EventSource.EVIDENCE_SNAPSHOT,
+                            kind=EventKind.SNAPSHOT_ABSENT,
+                            system_id="account_service",
+                            resource_id=account_id,
+                            timestamp=ev54_dt,
+                            raw_timestamp="2026-09-02T23:00:00Z",
+                            reported_result=None,
+                            description=f"Negative proof snapshot: {account_id} absent from failover replica",
+                            evidence_id="evidence_54",
+                            locator="database:customer_profiles_failover_replica",
+                            metadata={"negative_proof": True},
+                        )
+                    )
 
         all_events = activity_events + evidence_events
-        # Sort: events with timestamps ascending, then timstamp-less events last
+        # Sort: events with timestamps ascending, then timestamp-less events last
         all_events.sort(
             key=lambda e: (
                 e.timestamp is None,

@@ -84,14 +84,19 @@ class PolicyEvaluator:
 
         elif rule.required_action == RequiredAction.REDACT:
             verification_op = "VERIFY_RECORD_REDACTED"
-            # In ACCOUNT_TOMBSTONE, stable user_id is permitted, but direct identifiers are prohibited.
+            # In ACCOUNT_TOMBSTONE and REDACT rules, stable user_id is permitted, but direct identifiers are prohibited.
             has_exposed_pii = bool(prohibited_found) or observed_state == ObservedState.PRESENT
 
-            if category == DataCategory.ACCOUNT_TOMBSTONE:
-                # If content specifically states PII is redacted and no direct identifiers were found:
-                if "pii_redacted" in content_lc or "redacted" in content_lc:
-                    if not prohibited_found:
-                        has_exposed_pii = False
+            if category in (DataCategory.ACCOUNT_TOMBSTONE, DataCategory.SUPPORT_MESSAGE):
+                if not prohibited_found and (
+                    observed_state in (ObservedState.REDACTED, ObservedState.ABSENT)
+                    or "pii_redacted" in content_lc
+                    or "redacted" in content_lc
+                    or '"email": null' in content_lc
+                    or "requester_email=null" in content_lc
+                ):
+                    has_exposed_pii = False
+                    observed_state = ObservedState.REDACTED
 
             if has_exposed_pii or observed_state != ObservedState.REDACTED:
                 is_violation = True
@@ -113,8 +118,13 @@ class PolicyEvaluator:
                 if re.search(r"(?<![A-Za-z0-9_])" + re.escape(uid_lc) + r"(?![A-Za-z0-9_])", content_lc):
                     is_attributable = True
 
-            if observed_state == ObservedState.ANONYMIZED and not prohibited_found:
+            if not prohibited_found and (
+                observed_state == ObservedState.ANONYMIZED
+                or "customer_reference=null" in content_lc
+                or '"customer_reference": null' in content_lc
+            ):
                 is_attributable = False
+                observed_state = ObservedState.ANONYMIZED
 
             if is_attributable or observed_state != ObservedState.ANONYMIZED:
                 is_violation = True
