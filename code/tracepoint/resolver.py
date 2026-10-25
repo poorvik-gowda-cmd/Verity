@@ -309,6 +309,13 @@ class IdentityResolver:
                 if old_email not in self._user_emails.get(uid, []):
                     self._user_emails.setdefault(uid, []).append(old_email)
 
+                # Compute SHA-256 of historical email and register in user hashes and hash map
+                old_h = hashlib.sha256(old_email.strip().lower().encode()).hexdigest()
+                if old_h not in self._user_hashes.get(uid, []):
+                    self._user_hashes.setdefault(uid, []).append(old_h)
+                if old_h not in self._hash_map:
+                    self._hash_map[old_h] = link
+
         # --- audit log: email_hash changes ---
         hash_events = self._audit_log[
             self._audit_log["field_name"] == "email_hash"

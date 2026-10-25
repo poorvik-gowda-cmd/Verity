@@ -73,37 +73,37 @@
     "na_misclassification_case_ids": []
   },
   "step_metrics": {
-    "step_count_accuracy": 0.2188,
-    "step_count_matches": 7,
+    "step_count_accuracy": 0.125,
+    "step_count_matches": 4,
     "exact_sequence_accuracy": 0.0938,
     "exact_sequence_matches": 3,
-    "aggregate_step_precision": 0.1951,
-    "aggregate_step_recall": 0.829,
-    "aggregate_step_f1": 0.3159,
+    "aggregate_step_precision": 0.6364,
+    "aggregate_step_recall": 0.6528,
+    "aggregate_step_f1": 0.6445,
     "per_operation_metrics": {
       "ANONYMIZE_RECORD": {
-        "precision": 1.0,
+        "precision": 0.8333,
         "recall": 1.0,
-        "f1": 1.0,
+        "f1": 0.9091,
         "tp": 5,
-        "fp": 0,
+        "fp": 1,
         "fn": 0
       },
       "BLOCK_RESTORE": {
-        "precision": 0.0484,
+        "precision": 0.6,
         "recall": 1.0,
-        "f1": 0.0923,
+        "f1": 0.75,
         "tp": 3,
-        "fp": 59,
+        "fp": 2,
         "fn": 0
       },
       "DELETE_RECORD": {
-        "precision": 0.2159,
-        "recall": 0.9048,
-        "f1": 0.3486,
-        "tp": 19,
-        "fp": 69,
-        "fn": 2
+        "precision": 0.64,
+        "recall": 0.7619,
+        "f1": 0.6957,
+        "tp": 16,
+        "fp": 9,
+        "fn": 5
       },
       "DISABLE_DATA_FLOW": {
         "precision": 0.8571,
@@ -114,11 +114,11 @@
         "fn": 0
       },
       "REDACT_RECORD": {
-        "precision": 0.125,
+        "precision": 0.4286,
         "recall": 1.0,
-        "f1": 0.2222,
+        "f1": 0.6,
         "tp": 6,
-        "fp": 42,
+        "fp": 8,
         "fn": 0
       },
       "REPORT_ACTIVE_DATA_FLOW": {
@@ -130,83 +130,83 @@
         "fn": 0
       },
       "REPORT_EXPOSED_PII": {
-        "precision": 0.2075,
+        "precision": 0.55,
         "recall": 1.0,
-        "f1": 0.3438,
+        "f1": 0.7097,
         "tp": 11,
-        "fp": 42,
+        "fp": 9,
         "fn": 0
       },
       "REPORT_REMAINING_RECORD": {
-        "precision": 0.2159,
-        "recall": 0.9048,
-        "f1": 0.3486,
-        "tp": 19,
-        "fp": 69,
-        "fn": 2
+        "precision": 0.64,
+        "recall": 0.7619,
+        "f1": 0.6957,
+        "tp": 16,
+        "fp": 9,
+        "fn": 5
       },
       "REPORT_RESTORE_RISK": {
-        "precision": 0.0484,
+        "precision": 0.6,
         "recall": 1.0,
-        "f1": 0.0923,
+        "f1": 0.75,
         "tp": 3,
-        "fp": 59,
+        "fp": 2,
         "fn": 0
       },
       "VERIFY_DATA_FLOW_DISABLED": {
-        "precision": 0.45,
+        "precision": 0.9,
         "recall": 1.0,
-        "f1": 0.6207,
+        "f1": 0.9474,
         "tp": 9,
-        "fp": 11,
+        "fp": 1,
         "fn": 0
       },
       "VERIFY_RECORD_ABSENT": {
-        "precision": 0.338,
-        "recall": 0.96,
-        "f1": 0.5,
-        "tp": 48,
-        "fp": 94,
-        "fn": 2
+        "precision": 0.7714,
+        "recall": 0.54,
+        "f1": 0.6353,
+        "tp": 27,
+        "fp": 8,
+        "fn": 23
       },
       "VERIFY_RECORD_ANONYMIZED": {
-        "precision": 0.8571,
-        "recall": 0.5,
-        "f1": 0.6316,
-        "tp": 6,
+        "precision": 0.8333,
+        "recall": 0.4167,
+        "f1": 0.5556,
+        "tp": 5,
         "fp": 1,
-        "fn": 6
+        "fn": 7
       },
       "VERIFY_RECORD_PRESENT": {
-        "precision": 0.2353,
-        "recall": 1.0,
-        "f1": 0.381,
-        "tp": 24,
-        "fp": 78,
-        "fn": 0
+        "precision": 1.0,
+        "recall": 0.2917,
+        "f1": 0.4516,
+        "tp": 7,
+        "fp": 0,
+        "fn": 17
       },
       "VERIFY_RECORD_REDACTED": {
-        "precision": 0.1852,
+        "precision": 0.5556,
         "recall": 1.0,
-        "f1": 0.3125,
+        "f1": 0.7143,
         "tp": 10,
-        "fp": 44,
+        "fp": 8,
         "fn": 0
       },
       "VERIFY_RESTORE_BLOCKED": {
-        "precision": 0.08,
+        "precision": 0.75,
         "recall": 1.0,
-        "f1": 0.1481,
+        "f1": 0.8571,
         "tp": 6,
-        "fp": 69,
+        "fp": 2,
         "fn": 0
       }
     },
     "evidence_validity": {
-      "total_refs": 263,
-      "valid": 263,
+      "total_refs": 84,
+      "valid": 84,
       "invalid": 0,
-      "empty": 557,
+      "empty": 114,
       "unsupported_ids": []
     },
     "remediation_as_completed_count": 0,
@@ -256,13 +256,13 @@
       "predicted_status": "COMPLETE",
       "status_match": true,
       "expected_step_count": 3,
-      "predicted_step_count": 7,
+      "predicted_step_count": 2,
       "step_tp": 2,
-      "step_fp": 5,
+      "step_fp": 0,
       "step_fn": 1,
-      "step_precision": 0.2857,
+      "step_precision": 1.0,
       "step_recall": 0.6667,
-      "step_f1": 0.4,
+      "step_f1": 0.8,
       "failure_categories": [
         "Identity resolution",
         "Missing or incorrectly parsed evidence",
@@ -276,38 +276,7 @@
           "ANONYMIZED"
         ]
       ],
-      "extra_steps": [
-        [
-          "account_service",
-          "account_043",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_223",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_6266",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "integration_service",
-          "data_flow_223",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "backup_service",
-          "backup_6266",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ]
-      ]
+      "extra_steps": []
     },
     {
       "case_id": "case_04",
@@ -315,25 +284,27 @@
       "predicted_status": "COMPLETE",
       "status_match": true,
       "expected_step_count": 2,
-      "predicted_step_count": 3,
-      "step_tp": 2,
-      "step_fp": 1,
-      "step_fn": 0,
-      "step_precision": 0.6667,
-      "step_recall": 1.0,
-      "step_f1": 0.8,
+      "predicted_step_count": 1,
+      "step_tp": 1,
+      "step_fp": 0,
+      "step_fn": 1,
+      "step_precision": 1.0,
+      "step_recall": 0.5,
+      "step_f1": 0.6667,
       "failure_categories": [
-        "Missing or incorrectly parsed evidence"
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
-      "missing_steps": [],
-      "extra_steps": [
+      "missing_steps": [
         [
-          "analytics_identity_store",
+          "analytics_platform",
           "analytics_901",
           "VERIFY_RECORD_ANONYMIZED",
           "ANONYMIZED"
         ]
-      ]
+      ],
+      "extra_steps": []
     },
     {
       "case_id": "case_05",
@@ -341,59 +312,8 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 3,
-      "predicted_step_count": 4,
-      "step_tp": 1,
-      "step_fp": 3,
-      "step_fn": 2,
-      "step_precision": 0.25,
-      "step_recall": 0.3333,
-      "step_f1": 0.2857,
-      "failure_categories": [
-        "Identity resolution"
-      ],
-      "missing_steps": [
-        [
-          "account_service",
-          "account_005",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_005",
-          "DELETE_RECORD",
-          "ABSENT"
-        ]
-      ],
-      "extra_steps": [
-        [
-          "account_service",
-          "account_05",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_05",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_05",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ]
-      ]
-    },
-    {
-      "case_id": "case_06",
-      "actual_status": "INCOMPLETE",
-      "predicted_status": "INCOMPLETE",
-      "status_match": true,
-      "expected_step_count": 4,
-      "predicted_step_count": 4,
-      "step_tp": 4,
+      "predicted_step_count": 3,
+      "step_tp": 3,
       "step_fp": 0,
       "step_fn": 0,
       "step_precision": 1.0,
@@ -404,20 +324,48 @@
       "extra_steps": []
     },
     {
+      "case_id": "case_06",
+      "actual_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "status_match": true,
+      "expected_step_count": 4,
+      "predicted_step_count": 3,
+      "step_tp": 3,
+      "step_fp": 0,
+      "step_fn": 1,
+      "step_precision": 1.0,
+      "step_recall": 0.75,
+      "step_f1": 0.8571,
+      "failure_categories": [
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence"
+      ],
+      "missing_steps": [
+        [
+          "account_service",
+          "account_006",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ]
+      ],
+      "extra_steps": []
+    },
+    {
       "case_id": "case_07",
       "actual_status": "INCOMPLETE",
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 4,
-      "predicted_step_count": 4,
-      "step_tp": 1,
+      "predicted_step_count": 3,
+      "step_tp": 0,
       "step_fp": 3,
-      "step_fn": 3,
-      "step_precision": 0.25,
-      "step_recall": 0.25,
-      "step_f1": 0.25,
+      "step_fn": 4,
+      "step_precision": 0.0,
+      "step_recall": 0.0,
+      "step_f1": 0.0,
       "failure_categories": [
-        "Ground-truth ambiguity"
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence"
       ],
       "missing_steps": [
         [
@@ -437,15 +385,15 @@
           "support_001",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_007",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
         ]
       ],
       "extra_steps": [
-        [
-          "support_platform",
-          "support_001",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
         [
           "support_platform",
           "support_001",
@@ -457,6 +405,12 @@
           "support_001",
           "REPORT_EXPOSED_PII",
           "PRESENT"
+        ],
+        [
+          "support_platform",
+          "support_001",
+          "VERIFY_RECORD_REDACTED",
+          "REDACTED"
         ]
       ]
     },
@@ -466,23 +420,49 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 4,
-      "predicted_step_count": 7,
-      "step_tp": 4,
+      "predicted_step_count": 3,
+      "step_tp": 0,
       "step_fp": 3,
-      "step_fn": 0,
-      "step_precision": 0.5714,
-      "step_recall": 1.0,
-      "step_f1": 0.7273,
+      "step_fn": 4,
+      "step_precision": 0.0,
+      "step_recall": 0.0,
+      "step_f1": 0.0,
       "failure_categories": [
+        "Identity resolution",
         "Missing or incorrectly parsed evidence"
       ],
-      "missing_steps": [],
+      "missing_steps": [
+        [
+          "export_service",
+          "export_001",
+          "REPORT_REMAINING_RECORD",
+          "PRESENT"
+        ],
+        [
+          "export_service",
+          "export_001",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "export_service",
+          "export_001",
+          "DELETE_RECORD",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_008",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ]
+      ],
       "extra_steps": [
         [
           "user_export_store",
           "export_001",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
         ],
         [
           "user_export_store",
@@ -493,8 +473,8 @@
         [
           "user_export_store",
           "export_001",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
+          "REPORT_REMAINING_RECORD",
+          "PRESENT"
         ]
       ]
     },
@@ -504,13 +484,13 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 5,
-      "predicted_step_count": 134,
+      "predicted_step_count": 3,
       "step_tp": 3,
-      "step_fp": 131,
+      "step_fp": 0,
       "step_fn": 2,
-      "step_precision": 0.0224,
+      "step_precision": 1.0,
       "step_recall": 0.6,
-      "step_f1": 0.0432,
+      "step_f1": 0.75,
       "failure_categories": [
         "Identity resolution",
         "Missing or incorrectly parsed evidence",
@@ -530,794 +510,7 @@
           "PRESENT"
         ]
       ],
-      "extra_steps": [
-        [
-          "backup_service",
-          "backup_6407",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3332",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_2775",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_8162",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4600",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_service",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_service",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_9287",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4935",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4863",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4600",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_6407",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_3332",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4917",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_1668",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_2775",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_9519",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3245",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_7303",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_5165",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_8162",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_4863",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_7421",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_8162",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "account_service",
-          "account_service",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_2775",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1825",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4600",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_9287",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_6407",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_9287",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_9519",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4917",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_4917",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_5520",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_2894",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_369",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_161",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_161",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_1214",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1668",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3245",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1214",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_1668",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "privacy_treatment_service",
-          "backup_8162",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_5165",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_5165",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_8673",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_7303",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_9287",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_1825",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1140",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4935",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_317",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_8162",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_7079",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4978",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_2427",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_6407",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "account_service",
-          "account_service",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_1668",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_2894",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3933",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "support_storage_service",
-          "backup_3136",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3933",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_3332",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3332",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_4917",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_8673",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4600",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_5520",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_5165",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3245",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3245",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_061",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_7303",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_7303",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_7421",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_6458",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_6458",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_7079",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1140",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4863",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_317",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_6458",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_9519",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1825",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_service",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_369",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_2894",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_2427",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_2894",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_9376",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1214",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_5520",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_5520",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "support_storage_service",
-          "backup_3136",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_6458",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_7421",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_2775",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "privacy_treatment_service",
-          "backup_2775",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_9376",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_369",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_369",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_7079",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "integration_service",
-          "data_flow_6846",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_7079",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_1140",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_1140",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_317",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_4935",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_317",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4935",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4863",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_161",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1825",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_service",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "support_storage_service",
-          "backup_3136",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_2427",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_8673",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_2427",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_1214",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_9376",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "integration_service",
-          "data_flow_6846",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "backup_service",
-          "backup_9519",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_service",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_8673",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_9376",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "support_storage_service",
-          "backup_3136",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_7421",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_161",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ]
-      ]
+      "extra_steps": []
     },
     {
       "case_id": "case_10",
@@ -1325,15 +518,16 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 4,
-      "predicted_step_count": 14,
-      "step_tp": 1,
-      "step_fp": 13,
-      "step_fn": 3,
-      "step_precision": 0.0714,
-      "step_recall": 0.25,
-      "step_f1": 0.1111,
+      "predicted_step_count": 9,
+      "step_tp": 0,
+      "step_fp": 9,
+      "step_fn": 4,
+      "step_precision": 0.0,
+      "step_recall": 0.0,
+      "step_f1": 0.0,
       "failure_categories": [
-        "Identity resolution"
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence"
       ],
       "missing_steps": [
         [
@@ -1343,8 +537,8 @@
           "ABSENT"
         ],
         [
-          "support_platform",
-          "support_002",
+          "account_service",
+          "account_010",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
         ],
@@ -1353,38 +547,32 @@
           "support_002",
           "REPORT_REMAINING_RECORD",
           "PRESENT"
+        ],
+        [
+          "support_platform",
+          "support_002",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
         ]
       ],
       "extra_steps": [
         [
           "support_replica",
-          "support_002",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_replica",
           "support_4104",
           "REDACT_RECORD",
           "REDACTED"
         ],
         [
           "support_replica",
-          "support_5914",
+          "support_002",
           "REDACT_RECORD",
           "REDACTED"
         ],
         [
           "support_replica",
-          "support_replica",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_replica",
-          "support_replica",
-          "REDACT_RECORD",
-          "REDACTED"
+          "support_002",
+          "REPORT_EXPOSED_PII",
+          "PRESENT"
         ],
         [
           "support_replica",
@@ -1394,20 +582,8 @@
         ],
         [
           "support_replica",
-          "support_replica",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
           "support_002",
           "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_replica",
-          "support_002",
-          "REDACT_RECORD",
           "REDACTED"
         ],
         [
@@ -1430,8 +606,8 @@
         ],
         [
           "support_replica",
-          "support_002",
-          "VERIFY_RECORD_REDACTED",
+          "support_5914",
+          "REDACT_RECORD",
           "REDACTED"
         ]
       ]
@@ -1442,110 +618,33 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 14,
-      "predicted_step_count": 29,
-      "step_tp": 14,
-      "step_fp": 15,
-      "step_fn": 0,
-      "step_precision": 0.4828,
-      "step_recall": 1.0,
-      "step_f1": 0.6512,
+      "predicted_step_count": 12,
+      "step_tp": 12,
+      "step_fp": 0,
+      "step_fn": 2,
+      "step_precision": 1.0,
+      "step_recall": 0.8571,
+      "step_f1": 0.9231,
       "failure_categories": [
         "Identity resolution",
-        "Missing or incorrectly parsed evidence"
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
-      "missing_steps": [],
-      "extra_steps": [
+      "missing_steps": [
         [
-          "search_service",
-          "search_2127",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_459",
-          "REPORT_REMAINING_RECORD",
+          "security_service",
+          "audit_record_9394",
+          "VERIFY_RECORD_PRESENT",
           "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_5742",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "search_service",
-          "search_2127",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_2127",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "support_platform",
-          "support_5742",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_9522",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_9522",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_9522",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_032",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
         ],
         [
           "account_service",
           "account_4248",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_4248",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_459",
           "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "support_platform",
-          "support_5742",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "search_service",
-          "search_459",
-          "DELETE_RECORD",
           "ABSENT"
         ]
-      ]
+      ],
+      "extra_steps": []
     },
     {
       "case_id": "case_12",
@@ -1553,16 +652,17 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 5,
-      "predicted_step_count": 6,
-      "step_tp": 2,
-      "step_fp": 4,
-      "step_fn": 3,
-      "step_precision": 0.3333,
-      "step_recall": 0.4,
-      "step_f1": 0.3636,
+      "predicted_step_count": 3,
+      "step_tp": 0,
+      "step_fp": 3,
+      "step_fn": 5,
+      "step_precision": 0.0,
+      "step_recall": 0.0,
+      "step_f1": 0.0,
       "failure_categories": [
         "Identity resolution",
-        "Missing or incorrectly parsed evidence"
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
       "missing_steps": [
         [
@@ -1574,40 +674,46 @@
         [
           "analytics_platform",
           "analytics_9914",
-          "REPORT_REMAINING_RECORD",
+          "DELETE_RECORD",
+          "ABSENT"
+        ],
+        [
+          "security_service",
+          "audit_record_2945",
+          "VERIFY_RECORD_PRESENT",
           "PRESENT"
         ],
         [
           "analytics_platform",
           "analytics_9914",
-          "DELETE_RECORD",
-          "ABSENT"
-        ]
-      ],
-      "extra_steps": [
-        [
-          "account_service",
-          "account_012",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_service",
           "REPORT_REMAINING_RECORD",
           "PRESENT"
         ],
         [
           "account_service",
-          "account_service",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_service",
+          "account_9797",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
+        ]
+      ],
+      "extra_steps": [
+        [
+          "analytics_platform",
+          "analytics_9914",
+          "REPORT_EXPOSED_PII",
+          "PRESENT"
+        ],
+        [
+          "analytics_platform",
+          "analytics_9914",
+          "ANONYMIZE_RECORD",
+          "ANONYMIZED"
+        ],
+        [
+          "analytics_platform",
+          "analytics_9914",
+          "VERIFY_RECORD_ANONYMIZED",
+          "ANONYMIZED"
         ]
       ]
     },
@@ -1617,92 +723,33 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 8,
-      "predicted_step_count": 20,
-      "step_tp": 8,
-      "step_fp": 12,
-      "step_fn": 0,
-      "step_precision": 0.4,
-      "step_recall": 1.0,
-      "step_f1": 0.5714,
+      "predicted_step_count": 6,
+      "step_tp": 6,
+      "step_fp": 0,
+      "step_fn": 2,
+      "step_precision": 1.0,
+      "step_recall": 0.75,
+      "step_f1": 0.8571,
       "failure_categories": [
         "Identity resolution",
-        "Missing or incorrectly parsed evidence"
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
-      "missing_steps": [],
-      "extra_steps": [
-        [
-          "search_service",
-          "search_4013",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4013",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_1770",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4013",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
+      "missing_steps": [
         [
           "account_service",
           "account_9335",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_1770",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_1770",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "integration_service",
-          "data_flow_1770",
-          "DISABLE_DATA_FLOW",
-          "DISABLED"
-        ],
-        [
-          "account_service",
-          "account_033",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
         ],
         [
-          "integration_service",
-          "data_flow_1770",
-          "REPORT_REMAINING_RECORD",
+          "security_service",
+          "audit_record_4816",
+          "VERIFY_RECORD_PRESENT",
           "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_9335",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_1770",
-          "REPORT_ACTIVE_DATA_FLOW",
-          "ACTIVE"
         ]
-      ]
+      ],
+      "extra_steps": []
     },
     {
       "case_id": "case_14",
@@ -1710,43 +757,33 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 5,
-      "predicted_step_count": 9,
-      "step_tp": 5,
-      "step_fp": 4,
-      "step_fn": 0,
-      "step_precision": 0.5556,
-      "step_recall": 1.0,
-      "step_f1": 0.7143,
+      "predicted_step_count": 3,
+      "step_tp": 3,
+      "step_fp": 0,
+      "step_fn": 2,
+      "step_precision": 1.0,
+      "step_recall": 0.6,
+      "step_f1": 0.75,
       "failure_categories": [
-        "Identity resolution"
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
-      "missing_steps": [],
-      "extra_steps": [
+      "missing_steps": [
         [
-          "backup_service",
-          "backup_3870",
+          "security_service",
+          "audit_record_987",
           "VERIFY_RECORD_PRESENT",
           "PRESENT"
         ],
         [
           "account_service",
           "account_3677",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_3677",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_037",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
         ]
-      ]
+      ],
+      "extra_steps": []
     },
     {
       "case_id": "case_15",
@@ -1754,47 +791,50 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 5,
-      "predicted_step_count": 10,
-      "step_tp": 5,
-      "step_fp": 5,
-      "step_fn": 0,
+      "predicted_step_count": 6,
+      "step_tp": 3,
+      "step_fp": 3,
+      "step_fn": 2,
       "step_precision": 0.5,
-      "step_recall": 1.0,
-      "step_f1": 0.6667,
+      "step_recall": 0.6,
+      "step_f1": 0.5455,
       "failure_categories": [
-        "Identity resolution"
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
-      "missing_steps": [],
-      "extra_steps": [
+      "missing_steps": [
         [
           "account_service",
-          "account_015",
+          "account_4745",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_9846",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_9846",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_9846",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
         ],
         [
           "security_service",
-          "audit_record_query_started",
+          "audit_record_1596",
           "VERIFY_RECORD_PRESENT",
           "PRESENT"
+        ]
+      ],
+      "extra_steps": [
+        [
+          "integration_service",
+          "data_flow_1121",
+          "REPORT_ACTIVE_DATA_FLOW",
+          "ACTIVE"
+        ],
+        [
+          "integration_service",
+          "data_flow_1121",
+          "VERIFY_DATA_FLOW_DISABLED",
+          "DISABLED"
+        ],
+        [
+          "integration_service",
+          "data_flow_1121",
+          "DISABLE_DATA_FLOW",
+          "DISABLED"
         ]
       ]
     },
@@ -1804,476 +844,27 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 7,
-      "predicted_step_count": 83,
-      "step_tp": 7,
-      "step_fp": 76,
-      "step_fn": 0,
-      "step_precision": 0.0843,
-      "step_recall": 1.0,
-      "step_f1": 0.1556,
+      "predicted_step_count": 6,
+      "step_tp": 6,
+      "step_fp": 0,
+      "step_fn": 1,
+      "step_precision": 1.0,
+      "step_recall": 0.8571,
+      "step_f1": 0.9231,
       "failure_categories": [
         "Identity resolution",
-        "Missing or incorrectly parsed evidence"
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
-      "missing_steps": [],
-      "extra_steps": [
+      "missing_steps": [
         [
-          "search_service",
-          "search_2568",
-          "REPORT_REMAINING_RECORD",
+          "security_service",
+          "audit_record_9528",
+          "VERIFY_RECORD_PRESENT",
           "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_7941",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_5696",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_2794",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_2024",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_901",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_1110",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4464",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_3630",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_5696",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_943",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1414",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2615",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_9733",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_901",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_6677",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_182",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_901",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2794",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_3630",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_3355",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_2615",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_3630",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_460",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_9733",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7363",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4560",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_6677",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_9335",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7941",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_8295",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4464",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_9470",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7562",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7941",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_service",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_943",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_1414",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_1110",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2024",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_053",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_service",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2568",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_182",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_5696",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4464",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_943",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1414",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2568",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1474",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_7363",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_460",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_182",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2794",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4560",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_8295",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_9335",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_2615",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1474",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_460",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_9470",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_9733",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1474",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7363",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7562",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_6677",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4560",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_9335",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_service",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_8295",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2024",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_3355",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_9470",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1110",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_7562",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_3355",
-          "DELETE_RECORD",
-          "ABSENT"
         ]
-      ]
+      ],
+      "extra_steps": []
     },
     {
       "case_id": "case_17",
@@ -2281,762 +872,230 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 5,
-      "predicted_step_count": 129,
-      "step_tp": 5,
-      "step_fp": 124,
-      "step_fn": 0,
-      "step_precision": 0.0388,
-      "step_recall": 1.0,
-      "step_f1": 0.0746,
+      "predicted_step_count": 36,
+      "step_tp": 3,
+      "step_fp": 33,
+      "step_fn": 2,
+      "step_precision": 0.0833,
+      "step_recall": 0.6,
+      "step_f1": 0.1463,
       "failure_categories": [
         "Identity resolution",
-        "Missing or incorrectly parsed evidence"
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
-      "missing_steps": [],
+      "missing_steps": [
+        [
+          "security_service",
+          "audit_record_1797",
+          "VERIFY_RECORD_PRESENT",
+          "PRESENT"
+        ],
+        [
+          "account_service",
+          "account_4092",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ]
+      ],
       "extra_steps": [
         [
-          "backup_service",
-          "backup_6407",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3332",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_2775",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_8162",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4600",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_service",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_service",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_9287",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4935",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4863",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4600",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_6407",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_3332",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4917",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_1668",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_2775",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_9519",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_7303",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_5165",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_8162",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_4863",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_7421",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_8162",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
           "account_service",
-          "account_service",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_2775",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1825",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "account_service",
-          "account_017",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_4600",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_9287",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_6407",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_9287",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_9519",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4917",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_4917",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_5520",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_2894",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_369",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_161",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_161",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_1214",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1668",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1214",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_1668",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "privacy_treatment_service",
-          "backup_8162",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_5165",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_5165",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_8673",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_7303",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_9287",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_1825",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1140",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4935",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_317",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_8162",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_7079",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_2427",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_6407",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "account_service",
-          "account_service",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_1668",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_2894",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "support_storage_service",
-          "backup_3136",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3332",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3332",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_4917",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_8673",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_4600",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_5520",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_5165",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_3245",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_7303",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_7303",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_7421",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_6458",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_6458",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_7079",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1140",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4863",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_317",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_6458",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_9519",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1825",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_service",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_369",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_2894",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_2427",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_2894",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_9376",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1214",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_5520",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_5520",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "support_storage_service",
-          "backup_3136",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_6458",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_7421",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_2775",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "privacy_treatment_service",
-          "backup_2775",
-          "VERIFY_RECORD_PRESENT",
+          "account_3204",
+          "REPORT_REMAINING_RECORD",
           "PRESENT"
         ],
         [
           "account_service",
-          "account_6523",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_9376",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_369",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_369",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_7079",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_7079",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_1140",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_1140",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_317",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_4935",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_317",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4935",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_4863",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_161",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_1825",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_service",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "support_storage_service",
-          "backup_3136",
-          "REPORT_RESTORE_RISK",
-          "ACTIVE"
-        ],
-        [
-          "backup_service",
-          "backup_2427",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_8673",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_2427",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_1214",
-          "BLOCK_RESTORE",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_9376",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_9519",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_service",
+          "account_service_replica",
           "REPORT_REMAINING_RECORD",
           "PRESENT"
         ],
         [
           "backup_service",
-          "backup_8673",
-          "VERIFY_RECORD_PRESENT",
+          "backup_service_store",
+          "BLOCK_RESTORE",
+          "BLOCKED"
+        ],
+        [
+          "account_service",
+          "account_service_store",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_8590",
+          "REPORT_REMAINING_RECORD",
           "PRESENT"
+        ],
+        [
+          "account_service",
+          "account_3016",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_3204",
+          "DELETE_RECORD",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_5896",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_service_replica",
+          "DELETE_RECORD",
+          "ABSENT"
         ],
         [
           "backup_service",
-          "backup_9376",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "support_storage_service",
-          "backup_3136",
+          "backup_service_store",
           "VERIFY_RESTORE_BLOCKED",
           "BLOCKED"
         ],
         [
-          "backup_service",
-          "backup_7421",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
+          "account_service",
+          "account_6567",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
         ],
         [
           "backup_service",
-          "backup_161",
+          "backup_service_store",
           "REPORT_RESTORE_RISK",
           "ACTIVE"
+        ],
+        [
+          "account_service",
+          "account_8590",
+          "DELETE_RECORD",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_3016",
+          "REPORT_REMAINING_RECORD",
+          "PRESENT"
+        ],
+        [
+          "account_service",
+          "account_2088",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_2062",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_5896",
+          "REPORT_REMAINING_RECORD",
+          "PRESENT"
+        ],
+        [
+          "account_service",
+          "account_service_store",
+          "REPORT_REMAINING_RECORD",
+          "PRESENT"
+        ],
+        [
+          "account_service",
+          "account_service_replica",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_6567",
+          "REPORT_REMAINING_RECORD",
+          "PRESENT"
+        ],
+        [
+          "account_service",
+          "account_3016",
+          "DELETE_RECORD",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_2088",
+          "REPORT_REMAINING_RECORD",
+          "PRESENT"
+        ],
+        [
+          "account_service",
+          "account_2062",
+          "REPORT_REMAINING_RECORD",
+          "PRESENT"
+        ],
+        [
+          "backup_service",
+          "backup_service_replica",
+          "BLOCK_RESTORE",
+          "BLOCKED"
+        ],
+        [
+          "account_service",
+          "account_5896",
+          "DELETE_RECORD",
+          "ABSENT"
+        ],
+        [
+          "backup_service",
+          "backup_service_replica",
+          "VERIFY_RESTORE_BLOCKED",
+          "BLOCKED"
+        ],
+        [
+          "account_service",
+          "account_service_store",
+          "DELETE_RECORD",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_3204",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "backup_service",
+          "backup_service_replica",
+          "REPORT_RESTORE_RISK",
+          "ACTIVE"
+        ],
+        [
+          "account_service",
+          "account_8590",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_2088",
+          "DELETE_RECORD",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_2062",
+          "DELETE_RECORD",
+          "ABSENT"
+        ],
+        [
+          "account_service",
+          "account_6567",
+          "DELETE_RECORD",
+          "ABSENT"
         ]
       ]
     },
@@ -3046,13 +1105,13 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 14,
-      "predicted_step_count": 24,
-      "step_tp": 12,
-      "step_fp": 12,
-      "step_fn": 2,
-      "step_precision": 0.5,
-      "step_recall": 0.8571,
-      "step_f1": 0.6316,
+      "predicted_step_count": 9,
+      "step_tp": 9,
+      "step_fp": 0,
+      "step_fn": 5,
+      "step_precision": 1.0,
+      "step_recall": 0.6429,
+      "step_f1": 0.7826,
       "failure_categories": [
         "Identity resolution",
         "Missing or incorrectly parsed evidence",
@@ -3060,800 +1119,40 @@
       ],
       "missing_steps": [
         [
-          "security_service",
-          "audit_record_6645",
-          "VERIFY_RECORD_PRESENT",
+          "search_service",
+          "search_4013",
+          "REPORT_REMAINING_RECORD",
           "PRESENT"
+        ],
+        [
+          "search_service",
+          "search_4013",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "search_service",
+          "search_4013",
+          "DELETE_RECORD",
+          "ABSENT"
         ],
         [
           "account_service",
           "account_5521",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
-        ]
-      ],
-      "extra_steps": [
-        [
-          "account_service",
-          "account_5193",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_7809",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_050",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_4713",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "integration_service",
-          "data_flow_4890",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_9335",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_4890",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_9335",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_4713",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_9335",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_4890",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_7809",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ]
-      ]
-    },
-    {
-      "case_id": "case_19",
-      "actual_status": "INCOMPLETE",
-      "predicted_status": "INCOMPLETE",
-      "status_match": true,
-      "expected_step_count": 8,
-      "predicted_step_count": 122,
-      "step_tp": 8,
-      "step_fp": 114,
-      "step_fn": 0,
-      "step_precision": 0.0656,
-      "step_recall": 1.0,
-      "step_f1": 0.1231,
-      "failure_categories": [
-        "Identity resolution",
-        "Missing or incorrectly parsed evidence"
-      ],
-      "missing_steps": [],
-      "extra_steps": [
-        [
-          "support_platform",
-          "support_4851",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_3586",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_9652",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_4247",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_036",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_5323",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_7926",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_4442",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_2863",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_4364",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_771",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_9166",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_9391",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_008",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_5071",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_7926",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_1526",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_8378",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_9670",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_5953",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_9391",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_019",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "support_platform",
-          "support_2863",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_3786",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_475",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_5953",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_2716",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_platform",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_008",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_6131",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_platform",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_4851",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_008",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_1254",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_6737",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_2322",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_5071",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_9670",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_1403",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_4410",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_7432",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_475",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_5953",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_4442",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_771",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_7249",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_3786",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_2716",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_8378",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_1526",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_4247",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_4851",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_6737",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_6737",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_2322",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_2322",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_036",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_1254",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_4410",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_service",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "support_platform",
-          "support_2863",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_1403",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_3155",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_3786",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_305",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_6131",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_9391",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_4442",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_2716",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_475",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_305",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_3586",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_6131",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_5361",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_7973",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_platform",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_7249",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_8378",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_9652",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_1526",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_1403",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_7432",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_036",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_5720",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_1693",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_3155",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_7249",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_3155",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_9166",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_1693",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_7973",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_5361",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_5361",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_5071",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_9652",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_4247",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_5323",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_7432",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_4410",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_4364",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_9166",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_1693",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_7973",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_305",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_3586",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "account_service",
-          "account_service",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_1254",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_5323",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_4364",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_7926",
-          "REDACT_RECORD",
-          "REDACTED"
-        ],
-        [
-          "support_platform",
-          "support_9670",
-          "REPORT_EXPOSED_PII",
-          "PRESENT"
         ],
         [
           "security_service",
-          "audit_record_query_started",
+          "audit_record_6645",
           "VERIFY_RECORD_PRESENT",
           "PRESENT"
-        ],
-        [
-          "support_platform",
-          "support_771",
-          "VERIFY_RECORD_REDACTED",
-          "REDACTED"
-        ],
-        [
-          "account_service",
-          "account_service",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
         ]
-      ]
+      ],
+      "extra_steps": []
     },
     {
-      "case_id": "case_20",
+      "case_id": "case_19",
       "actual_status": "INCOMPLETE",
       "predicted_status": "INCOMPLETE",
       "status_match": true,
@@ -3872,9 +1171,122 @@
       ],
       "missing_steps": [
         [
+          "account_service",
+          "account_9102",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "security_service",
+          "audit_record_6793",
+          "VERIFY_RECORD_PRESENT",
+          "PRESENT"
+        ]
+      ],
+      "extra_steps": [
+        [
+          "support_platform",
+          "support_platform_store",
+          "VERIFY_RECORD_REDACTED",
+          "REDACTED"
+        ],
+        [
+          "support_platform",
+          "support_4691",
+          "VERIFY_RECORD_REDACTED",
+          "REDACTED"
+        ],
+        [
+          "support_platform",
+          "support_4691",
+          "REDACT_RECORD",
+          "REDACTED"
+        ],
+        [
+          "support_platform",
+          "support_6949",
+          "REPORT_EXPOSED_PII",
+          "PRESENT"
+        ],
+        [
+          "support_platform",
+          "support_platform_replica",
+          "VERIFY_RECORD_REDACTED",
+          "REDACTED"
+        ],
+        [
+          "support_platform",
+          "support_6949",
+          "VERIFY_RECORD_REDACTED",
+          "REDACTED"
+        ],
+        [
+          "support_platform",
+          "support_platform_store",
+          "REDACT_RECORD",
+          "REDACTED"
+        ],
+        [
+          "support_platform",
+          "support_platform_replica",
+          "REPORT_EXPOSED_PII",
+          "PRESENT"
+        ],
+        [
+          "support_platform",
+          "support_platform_replica",
+          "REDACT_RECORD",
+          "REDACTED"
+        ],
+        [
+          "support_platform",
+          "support_6949",
+          "REDACT_RECORD",
+          "REDACTED"
+        ],
+        [
+          "support_platform",
+          "support_4691",
+          "REPORT_EXPOSED_PII",
+          "PRESENT"
+        ],
+        [
+          "support_platform",
+          "support_platform_store",
+          "REPORT_EXPOSED_PII",
+          "PRESENT"
+        ]
+      ]
+    },
+    {
+      "case_id": "case_20",
+      "actual_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "status_match": true,
+      "expected_step_count": 8,
+      "predicted_step_count": 3,
+      "step_tp": 3,
+      "step_fp": 0,
+      "step_fn": 5,
+      "step_precision": 1.0,
+      "step_recall": 0.375,
+      "step_f1": 0.5455,
+      "failure_categories": [
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
+      ],
+      "missing_steps": [
+        [
           "security_service",
           "audit_record_5569",
           "VERIFY_RECORD_PRESENT",
+          "PRESENT"
+        ],
+        [
+          "search_service",
+          "search_4262",
+          "REPORT_REMAINING_RECORD",
           "PRESENT"
         ],
         [
@@ -3882,82 +1294,21 @@
           "account_5037",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
+        ],
+        [
+          "search_service",
+          "search_4262",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "search_service",
+          "search_4262",
+          "DELETE_RECORD",
+          "ABSENT"
         ]
       ],
-      "extra_steps": [
-        [
-          "account_service",
-          "account_5193",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_1770",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_7809",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_4713",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "account_service",
-          "account_9335",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_048",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_1770",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_1770",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_9335",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_4713",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_9335",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "backup_service",
-          "backup_7809",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ]
-      ]
+      "extra_steps": []
     },
     {
       "case_id": "case_21",
@@ -3979,16 +1330,16 @@
       ],
       "missing_steps": [
         [
-          "analytics_platform",
-          "analytics_5335",
-          "VERIFY_RECORD_ANONYMIZED",
-          "ANONYMIZED"
-        ],
-        [
           "account_service",
           "account_6440",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
+        ],
+        [
+          "analytics_platform",
+          "analytics_5335",
+          "VERIFY_RECORD_ANONYMIZED",
+          "ANONYMIZED"
         ]
       ],
       "extra_steps": [
@@ -4006,582 +1357,13 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 8,
-      "predicted_step_count": 83,
-      "step_tp": 7,
-      "step_fp": 76,
-      "step_fn": 1,
-      "step_precision": 0.0843,
-      "step_recall": 0.875,
-      "step_f1": 0.1538,
-      "failure_categories": [
-        "Identity resolution",
-        "Missing or incorrectly parsed evidence"
-      ],
-      "missing_steps": [
-        [
-          "account_service",
-          "account_4990",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ]
-      ],
-      "extra_steps": [
-        [
-          "search_service",
-          "search_7941",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2568",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_5696",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_2794",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_2024",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_901",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_1110",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4464",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_3630",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_5696",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_943",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1414",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2615",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_9733",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_901",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_6677",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_182",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_901",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2794",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_3630",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_3355",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_2615",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_3630",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_460",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_9733",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7363",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4560",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_6677",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_9335",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7941",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_8295",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4464",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_9470",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7562",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7941",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_service",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_943",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_1414",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_1110",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2024",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_service",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2568",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_182",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_5696",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4464",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_943",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1414",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "account_service",
-          "account_051",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2568",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1474",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_7363",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_460",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_182",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2794",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4560",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_8295",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_9335",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_2615",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1474",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_460",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_9470",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_9733",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1474",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7363",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_7562",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_6677",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_4560",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_9335",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_service",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_8295",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_2024",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_3355",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_9470",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_1110",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "search_service",
-          "search_7562",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "search_service",
-          "search_3355",
-          "DELETE_RECORD",
-          "ABSENT"
-        ]
-      ]
-    },
-    {
-      "case_id": "case_23",
-      "actual_status": "INCOMPLETE",
-      "predicted_status": "INCOMPLETE",
-      "status_match": true,
-      "expected_step_count": 8,
-      "predicted_step_count": 8,
-      "step_tp": 7,
-      "step_fp": 1,
-      "step_fn": 1,
-      "step_precision": 0.875,
-      "step_recall": 0.875,
-      "step_f1": 0.875,
-      "failure_categories": [
-        "Identity resolution",
-        "Missing or incorrectly parsed evidence"
-      ],
-      "missing_steps": [
-        [
-          "account_service",
-          "account_410",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ]
-      ],
-      "extra_steps": [
-        [
-          "account_service",
-          "account_023",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ]
-      ]
-    },
-    {
-      "case_id": "case_24",
-      "actual_status": "INCOMPLETE",
-      "predicted_status": "INCOMPLETE",
-      "status_match": true,
-      "expected_step_count": 7,
-      "predicted_step_count": 12,
-      "step_tp": 7,
-      "step_fp": 5,
-      "step_fn": 0,
-      "step_precision": 0.5833,
-      "step_recall": 1.0,
-      "step_f1": 0.7368,
-      "failure_categories": [
-        "Identity resolution",
-        "Missing or incorrectly parsed evidence"
-      ],
-      "missing_steps": [],
-      "extra_steps": [
-        [
-          "backup_service",
-          "backup_3120",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_6244",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_6244",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "backup_service",
-          "backup_3120",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "account_service",
-          "account_024",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ]
-      ]
-    },
-    {
-      "case_id": "case_25",
-      "actual_status": "COMPLETE",
-      "predicted_status": "COMPLETE",
-      "status_match": true,
-      "expected_step_count": 3,
       "predicted_step_count": 6,
-      "step_tp": 1,
-      "step_fp": 5,
+      "step_tp": 6,
+      "step_fp": 0,
       "step_fn": 2,
-      "step_precision": 0.1667,
-      "step_recall": 0.3333,
-      "step_f1": 0.2222,
+      "step_precision": 1.0,
+      "step_recall": 0.75,
+      "step_f1": 0.8571,
       "failure_categories": [
         "Identity resolution",
         "Missing or incorrectly parsed evidence",
@@ -4590,47 +1372,119 @@
       "missing_steps": [
         [
           "account_service",
-          "account_3136",
+          "account_4990",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
         ],
+        [
+          "security_service",
+          "audit_record_3482",
+          "VERIFY_RECORD_PRESENT",
+          "PRESENT"
+        ]
+      ],
+      "extra_steps": []
+    },
+    {
+      "case_id": "case_23",
+      "actual_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "status_match": true,
+      "expected_step_count": 8,
+      "predicted_step_count": 6,
+      "step_tp": 6,
+      "step_fp": 0,
+      "step_fn": 2,
+      "step_precision": 1.0,
+      "step_recall": 0.75,
+      "step_f1": 0.8571,
+      "failure_categories": [
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
+      ],
+      "missing_steps": [
+        [
+          "account_service",
+          "account_410",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
+        [
+          "security_service",
+          "audit_record_4128",
+          "VERIFY_RECORD_PRESENT",
+          "PRESENT"
+        ]
+      ],
+      "extra_steps": []
+    },
+    {
+      "case_id": "case_24",
+      "actual_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "status_match": true,
+      "expected_step_count": 7,
+      "predicted_step_count": 6,
+      "step_tp": 6,
+      "step_fp": 0,
+      "step_fn": 1,
+      "step_precision": 1.0,
+      "step_recall": 0.8571,
+      "step_f1": 0.9231,
+      "failure_categories": [
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
+      ],
+      "missing_steps": [
+        [
+          "security_service",
+          "audit_record_7095",
+          "VERIFY_RECORD_PRESENT",
+          "PRESENT"
+        ]
+      ],
+      "extra_steps": []
+    },
+    {
+      "case_id": "case_25",
+      "actual_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "status_match": true,
+      "expected_step_count": 3,
+      "predicted_step_count": 2,
+      "step_tp": 1,
+      "step_fp": 1,
+      "step_fn": 2,
+      "step_precision": 0.5,
+      "step_recall": 0.3333,
+      "step_f1": 0.4,
+      "failure_categories": [
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
+      ],
+      "missing_steps": [
         [
           "analytics_platform",
           "analytics_1895",
           "VERIFY_RECORD_ANONYMIZED",
           "ANONYMIZED"
+        ],
+        [
+          "account_service",
+          "account_3136",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
         ]
       ],
       "extra_steps": [
-        [
-          "backup_service",
-          "backup_3120",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
         [
           "account_service",
           "account_025",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_6244",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_6244",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "backup_service",
-          "backup_3120",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
         ]
       ]
     },
@@ -4640,19 +1494,25 @@
       "predicted_status": "COMPLETE",
       "status_match": true,
       "expected_step_count": 6,
-      "predicted_step_count": 8,
-      "step_tp": 5,
-      "step_fp": 3,
-      "step_fn": 1,
-      "step_precision": 0.625,
-      "step_recall": 0.8333,
-      "step_f1": 0.7143,
+      "predicted_step_count": 5,
+      "step_tp": 4,
+      "step_fp": 1,
+      "step_fn": 2,
+      "step_precision": 0.8,
+      "step_recall": 0.6667,
+      "step_f1": 0.7273,
       "failure_categories": [
         "Identity resolution",
         "Missing or incorrectly parsed evidence",
         "Retention policy"
       ],
       "missing_steps": [
+        [
+          "account_service",
+          "account_5684",
+          "VERIFY_RECORD_ABSENT",
+          "ABSENT"
+        ],
         [
           "analytics_platform",
           "analytics_4566",
@@ -4662,22 +1522,10 @@
       ],
       "extra_steps": [
         [
-          "integration_service",
-          "data_flow_6244",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
           "account_service",
           "account_026",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_3120",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
         ]
       ]
     },
@@ -4687,13 +1535,13 @@
       "predicted_status": "COMPLETE",
       "status_match": true,
       "expected_step_count": 6,
-      "predicted_step_count": 11,
+      "predicted_step_count": 5,
       "step_tp": 4,
-      "step_fp": 7,
+      "step_fp": 1,
       "step_fn": 2,
-      "step_precision": 0.3636,
+      "step_precision": 0.8,
       "step_recall": 0.6667,
-      "step_f1": 0.4706,
+      "step_f1": 0.7273,
       "failure_categories": [
         "Identity resolution",
         "Missing or incorrectly parsed evidence",
@@ -4715,42 +1563,6 @@
       ],
       "extra_steps": [
         [
-          "backup_service",
-          "backup_838",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "integration_service",
-          "data_flow_2337",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_838",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_2337",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "integration_service",
-          "data_flow_2295",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_5970",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
           "account_service",
           "account_027",
           "VERIFY_RECORD_ABSENT",
@@ -4764,13 +1576,13 @@
       "predicted_status": "COMPLETE",
       "status_match": true,
       "expected_step_count": 6,
-      "predicted_step_count": 11,
+      "predicted_step_count": 5,
       "step_tp": 4,
-      "step_fp": 7,
+      "step_fp": 1,
       "step_fn": 2,
-      "step_precision": 0.3636,
+      "step_precision": 0.8,
       "step_recall": 0.6667,
-      "step_f1": 0.4706,
+      "step_f1": 0.7273,
       "failure_categories": [
         "Identity resolution",
         "Missing or incorrectly parsed evidence",
@@ -4778,60 +1590,24 @@
       ],
       "missing_steps": [
         [
-          "analytics_platform",
-          "analytics_6077",
-          "VERIFY_RECORD_ANONYMIZED",
-          "ANONYMIZED"
-        ],
-        [
           "account_service",
           "account_5482",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
+        ],
+        [
+          "analytics_platform",
+          "analytics_6077",
+          "VERIFY_RECORD_ANONYMIZED",
+          "ANONYMIZED"
         ]
       ],
       "extra_steps": [
-        [
-          "integration_service",
-          "data_flow_2295",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "integration_service",
-          "data_flow_2337",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_838",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
         [
           "account_service",
           "account_028",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_2295",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_5970",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_5970",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
         ]
       ]
     },
@@ -4841,16 +1617,17 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 14,
-      "predicted_step_count": 25,
-      "step_tp": 13,
-      "step_fp": 12,
-      "step_fn": 1,
-      "step_precision": 0.52,
-      "step_recall": 0.9286,
-      "step_f1": 0.6667,
+      "predicted_step_count": 12,
+      "step_tp": 12,
+      "step_fp": 0,
+      "step_fn": 2,
+      "step_precision": 1.0,
+      "step_recall": 0.8571,
+      "step_f1": 0.9231,
       "failure_categories": [
         "Identity resolution",
-        "Missing or incorrectly parsed evidence"
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
       "missing_steps": [
         [
@@ -4858,82 +1635,15 @@
           "account_7012",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
+        ],
+        [
+          "security_service",
+          "audit_record_3954",
+          "VERIFY_RECORD_PRESENT",
+          "PRESENT"
         ]
       ],
-      "extra_steps": [
-        [
-          "integration_service",
-          "data_flow_2295",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "account_service",
-          "account_029",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_3827",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_2337",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_2337",
-          "VERIFY_DATA_FLOW_DISABLED",
-          "DISABLED"
-        ],
-        [
-          "integration_service",
-          "data_flow_3827",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_838",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_838",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_2295",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "backup_service",
-          "backup_5970",
-          "VERIFY_RESTORE_BLOCKED",
-          "BLOCKED"
-        ],
-        [
-          "backup_service",
-          "backup_5970",
-          "VERIFY_RECORD_PRESENT",
-          "PRESENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_3827",
-          "DELETE_RECORD",
-          "ABSENT"
-        ]
-      ]
+      "extra_steps": []
     },
     {
       "case_id": "case_30",
@@ -4941,16 +1651,17 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 14,
-      "predicted_step_count": 17,
-      "step_tp": 13,
-      "step_fp": 4,
-      "step_fn": 1,
-      "step_precision": 0.7647,
-      "step_recall": 0.9286,
-      "step_f1": 0.8387,
+      "predicted_step_count": 12,
+      "step_tp": 12,
+      "step_fp": 0,
+      "step_fn": 2,
+      "step_precision": 1.0,
+      "step_recall": 0.8571,
+      "step_f1": 0.9231,
       "failure_categories": [
         "Identity resolution",
-        "Missing or incorrectly parsed evidence"
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
       "missing_steps": [
         [
@@ -4958,34 +1669,15 @@
           "account_4163",
           "VERIFY_RECORD_ABSENT",
           "ABSENT"
+        ],
+        [
+          "security_service",
+          "audit_record_1707",
+          "VERIFY_RECORD_PRESENT",
+          "PRESENT"
         ]
       ],
-      "extra_steps": [
-        [
-          "integration_service",
-          "data_flow_8524",
-          "DELETE_RECORD",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_8524",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ],
-        [
-          "integration_service",
-          "data_flow_8524",
-          "REPORT_REMAINING_RECORD",
-          "PRESENT"
-        ],
-        [
-          "account_service",
-          "account_030",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ]
-      ]
+      "extra_steps": []
     },
     {
       "case_id": "case_31",
@@ -5001,8 +1693,7 @@
       "step_recall": 0.6667,
       "step_f1": 0.6667,
       "failure_categories": [
-        "Identity resolution",
-        "Missing or incorrectly parsed evidence"
+        "Identity resolution"
       ],
       "missing_steps": [
         [
@@ -5027,17 +1718,25 @@
       "predicted_status": "INCOMPLETE",
       "status_match": true,
       "expected_step_count": 5,
-      "predicted_step_count": 5,
-      "step_tp": 4,
-      "step_fp": 1,
-      "step_fn": 1,
-      "step_precision": 0.8,
-      "step_recall": 0.8,
-      "step_f1": 0.8,
+      "predicted_step_count": 3,
+      "step_tp": 3,
+      "step_fp": 0,
+      "step_fn": 2,
+      "step_precision": 1.0,
+      "step_recall": 0.6,
+      "step_f1": 0.75,
       "failure_categories": [
-        "Identity resolution"
+        "Identity resolution",
+        "Missing or incorrectly parsed evidence",
+        "Retention policy"
       ],
       "missing_steps": [
+        [
+          "security_service",
+          "audit_record_7068",
+          "VERIFY_RECORD_PRESENT",
+          "PRESENT"
+        ],
         [
           "account_service",
           "account_8858",
@@ -5045,14 +1744,7 @@
           "ABSENT"
         ]
       ],
-      "extra_steps": [
-        [
-          "account_service",
-          "account_542",
-          "VERIFY_RECORD_ABSENT",
-          "ABSENT"
-        ]
-      ]
+      "extra_steps": []
     }
   ]
 }

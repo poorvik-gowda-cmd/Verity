@@ -157,7 +157,13 @@ class StepGenerator:
 
         # Process policy findings
         for f in policy_findings:
-            if f.is_violation and f.finding_operation:
+            if not f.is_violation:
+                # Compliant resource: no finding, no remediation, no verification step needed.
+                # Including verification steps for already-correct resources inflates the output
+                # without adding audit value for INCOMPLETE cases.
+                continue
+
+            if f.finding_operation:
                 op_enum = Operation(f.finding_operation)
                 expected_state = ALLOWED_OPERATION_STATES[Phase.FINDING][op_enum]
 
@@ -171,7 +177,7 @@ class StepGenerator:
                     "evidence_id": f.supporting_evidence_id or "",
                 }))
 
-            if f.is_violation and f.remediation_operation:
+            if f.remediation_operation:
                 op_enum = Operation(f.remediation_operation)
                 expected_state = ALLOWED_OPERATION_STATES[Phase.REMEDIATION][op_enum]
 
@@ -185,7 +191,7 @@ class StepGenerator:
                     "evidence_id": "",  # Proposed, not completed
                 }))
 
-            # Verification for every finding (both violated and compliant)
+            # Verification only for violated findings (proposed future check)
             verification_op = f.verification_operation
             op_enum = Operation(verification_op)
             expected_state = ALLOWED_OPERATION_STATES[Phase.VERIFICATION][op_enum]
@@ -197,12 +203,16 @@ class StepGenerator:
                 "resource_id": f.resource_id,
                 "operation": op_enum,
                 "state": expected_state,
-                "evidence_id": "",  # Future verification
+                "evidence_id": "",  # Future verification — proposed, not completed
             }))
 
         # Process resurrection risks
         for risk in resurrection_risks:
-            if risk.is_hazard and risk.finding_operation:
+            if not risk.is_hazard:
+                # Non-hazardous risk is already disabled/blocked — no steps needed
+                continue
+
+            if risk.finding_operation:
                 op_enum = Operation(risk.finding_operation)
                 expected_state = ALLOWED_OPERATION_STATES[Phase.FINDING][op_enum]
 
@@ -216,7 +226,7 @@ class StepGenerator:
                     "evidence_id": risk.supporting_evidence_id or "",
                 }))
 
-            if risk.is_hazard and risk.remediation_operation:
+            if risk.remediation_operation:
                 op_enum = Operation(risk.remediation_operation)
                 expected_state = ALLOWED_OPERATION_STATES[Phase.REMEDIATION][op_enum]
 
@@ -230,7 +240,7 @@ class StepGenerator:
                     "evidence_id": "",
                 }))
 
-            # Verification for the risk's resource
+            # Verification for the hazardous risk's resource (proposed future check)
             verification_op = risk.verification_operation
             op_enum = Operation(verification_op)
             expected_state = ALLOWED_OPERATION_STATES[Phase.VERIFICATION][op_enum]

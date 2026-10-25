@@ -113,7 +113,7 @@ class ResurrectionRiskAnalyzer:
     ) -> List[ResurrectionRisk]:
         """Inspect timeline events for active flows, sync recreations, and restore attempts."""
         risks: List[ResurrectionRisk] = []
-        seen_resources: Set[str] = set()
+        events_by_res: Dict[str, List[Any]] = {}
 
         for event in timeline_events:
             res_id = getattr(event, "resource_id", None) or ""
@@ -127,23 +127,76 @@ class ResurrectionRiskAnalyzer:
             if not (is_flow or is_backup):
                 continue
 
-            if res_id in seen_resources:
-                continue
-            seen_resources.add(res_id)
+            events_by_res.setdefault(res_id, []).append(event)
 
-            sys_id = getattr(event, "system_id", "") or "integration_service"
-            meta = getattr(event, "metadata", {}) or {}
+        for res_id, res_events in events_by_res.items():
+            # Find evidence snapshot event if any, or latest event
+            snapshot_events = [
+                e for e in res_events
+                if str(getattr(e, "source", "")) == "EVIDENCE_SNAPSHOT"
+                or (getattr(e, "evidence_id", "") or "").startswith("evidence_")
+            ]
+            target_event = snapshot_events[-1] if snapshot_events else res_events[-1]
+
+            sys_id = getattr(target_event, "system_id", "") or "integration_service"
+            meta = getattr(target_event, "metadata", {}) or {}
             event_type = meta.get("event_type", "")
-            details = meta.get("details", "") or getattr(event, "description", "")
-            raw_ts = getattr(event, "raw_timestamp", None)
-            ev_id = getattr(event, "evidence_id", "") or ""
+            details = meta.get("details", "") or getattr(target_event, "description", "")
+            details_lc = details.lower()
+            raw_ts = getattr(target_event, "raw_timestamp", None)
+            ev_id = getattr(target_event, "evidence_id", "") or ""
 
-            # Check if event was a disable or block
+            kind_str = str(getattr(target_event, "kind", ""))
+            reported_res = str(getattr(target_event, "reported_result", ""))
+
             state_str = "ACTIVE"
-            if event_type in ("DISABLE_DATA_FLOW", "BLOCK_RESTORE") and getattr(event, "reported_result", "") == "SUCCESS":
+            if (
+                "DATA_FLOW_DISABLED" in kind_str
+                or "BACKUP_BLOCKED" in kind_str
+                or '"enabled": false' in details_lc
+                or '"restore_allowed": false' in details_lc
+                or 'enabled=false' in details_lc
+                or 'restore_allowed=false' in details_lc
+                or 'last_delivery_status=stopped' in details_lc
+                or 'last_delivery_status="stopped"' in details_lc
+                or '"status": "disabled"' in details_lc
+                or '"status": "blocked"' in details_lc
+                or (event_type in ("DISABLE_DATA_FLOW", "BLOCK_RESTORE") and reported_res == "SUCCESS")
+            ):
                 state_str = "DISABLED"
-            elif "remains enabled" in details or "can still be restored" in details or "repopulated" in details:
+            elif (
+                "DATA_FLOW_ACTIVE" in kind_str
+                or "BACKUP_RESTORABLE" in kind_str
+                or '"enabled": true' in details_lc
+                or '"restore_allowed": true' in details_lc
+                or 'enabled=true' in details_lc
+                or 'restore_allowed=true' in details_lc
+                or 'remains enabled' in details_lc
+                or 'can still be restored' in details_lc
+                or 'repopulated' in details_lc
+            ):
                 state_str = "ACTIVE"
+            else:
+                # Look across all events for this resource for any successful disable/block
+                has_disable = any(
+                    (getattr(e, "metadata", {}).get("event_type") in ("DISABLE_DATA_FLOW", "BLOCK_RESTORE")
+                     and getattr(e, "reported_result", "") == "SUCCESS")
+                    or "DISABLED" in str(getattr(e, "kind", ""))
+                    or "BLOCKED" in str(getattr(e, "kind", ""))
+                    for e in res_events
+                )
+                if has_disable:
+                    state_str = "DISABLED"
+                else:
+                    state_str = "ACTIVE"
+
+            # Prefer file evidence_id if available across res_events
+            if not ev_id.startswith("evidence_"):
+                for e in res_events:
+                    e_ev = getattr(e, "evidence_id", "") or ""
+                    if e_ev.startswith("evidence_"):
+                        ev_id = e_ev
+                        break
 
             risk = self.analyze_flow_resource(
                 system_id=sys_id,
@@ -158,3 +211,4 @@ class ResurrectionRiskAnalyzer:
             risks.append(risk)
 
         return risks
+

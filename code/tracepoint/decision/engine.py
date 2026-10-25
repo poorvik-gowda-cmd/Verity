@@ -189,56 +189,10 @@ class DecisionEngine:
                     resurrection_risks=resurrection_risks,
                 )
 
-        # Ensure any INCOMPLETE case has the required 3-phase structure (FINDING, REMEDIATION, VERIFICATION)
-        if status == DeletionStatus.INCOMPLETE:
-            has_finding = any(s.phase == Phase.FINDING for s in steps)
-            has_remediation = any(s.phase == Phase.REMEDIATION for s in steps)
-            if not has_finding or not has_remediation:
-                user_num_str = resolution.user_id.replace("user_", "")
-                res_id = f"account_{user_num_str}"
-                fallback_finding = AuditStep(
-                    step_no=1,
-                    phase=Phase.FINDING,
-                    system_id="account_service",
-                    resource_id=res_id,
-                    operation=Operation.REPORT_REMAINING_RECORD,
-                    state=ObservedState.PRESENT,
-                    evidence_id="evidence_54",
-                )
-                fallback_remediation = AuditStep(
-                    step_no=2,
-                    phase=Phase.REMEDIATION,
-                    system_id="account_service",
-                    resource_id=res_id,
-                    operation=Operation.DELETE_RECORD,
-                    state=ObservedState.ABSENT,
-                    evidence_id="",
-                )
-                fallback_verification = AuditStep(
-                    step_no=3,
-                    phase=Phase.VERIFICATION,
-                    system_id="account_service",
-                    resource_id=res_id,
-                    operation=Operation.VERIFY_RECORD_ABSENT,
-                    state=ObservedState.ABSENT,
-                    evidence_id="",
-                )
-                other_verifs = [s for s in steps if s.phase == Phase.VERIFICATION and s.resource_id != res_id]
-                new_step_list = [fallback_finding, fallback_remediation, fallback_verification] + other_verifs
-                rebuilt_steps: List[AuditStep] = []
-                for s_idx, s in enumerate(new_step_list):
-                    rebuilt_steps.append(
-                        AuditStep(
-                            step_no=s_idx + 1,
-                            phase=s.phase,
-                            system_id=s.system_id,
-                            resource_id=s.resource_id,
-                            operation=s.operation,
-                            state=s.state,
-                            evidence_id=s.evidence_id,
-                        )
-                    )
-                steps = rebuilt_steps
+        # If INCOMPLETE with no steps at all, leave as-is.
+        # Do NOT inject hardcoded fallback steps citing specific evidence files.
+        # Per challenge contract §6.6: findings must cite participant-visible evidence.
+        # If the evidence search found no violations, accept that outcome.
 
         # Step 8: Validate and build output
         try:
@@ -350,6 +304,9 @@ class DecisionEngine:
 
         findings: List[PolicyFinding] = []
         for (sys_id, res_id), state_info in resource_states.items():
+            # Data flows and backups are resurrection risk resources evaluated by ResurrectionRiskAnalyzer
+            if res_id.startswith("data_flow") or res_id.startswith("backup") or "connector" in res_id or "archive" in res_id:
+                continue
             finding = self._policy_evaluator.evaluate_resource(
                 system_id=sys_id,
                 resource_id=res_id,
@@ -368,22 +325,26 @@ class DecisionEngine:
     ) -> Dict[tuple, Dict[str, Any]]:
         """Derive the observed state for each resource from timeline events.
 
-        Priority rules:
-        - SNAPSHOT_ABSENT/REDACTED/ANONYMIZED/DISABLED are 'resolved' states (priority 10).
-        - SNAPSHOT_PRESENT, DATA_FLOW_ACTIVE, BACKUP_RESTORABLE are 'active' states (priority 5).
-        - AUDIT_RECORD events are read-operation trails, not state evidence (priority 1).
-          They only create an entry if the resource has no existing state.
-        - For same priority: later timestamps win.
+        Precedence rules strictly conform to AGENTS.md §6.5 & §6.6:
+        - Grounded physical evidence (EventSource.EVIDENCE_SNAPSHOT) overrides
+          operation log claims (EventSource.SYSTEM_ACTIVITY).
+        - Evidence snapshots have tier 20; within tier 20, chronological timestamp
+          determines the latest observed state.
+        - Operation claims (DELETE_RECORD, etc.) have priority 10.
+        - Read audit trails (AUDIT_RECORD) have priority 1 and never overwrite state.
+        - Within same priority tier: later timestamps win.
         """
-        _STATE_PRIORITY = {
-            ObservedState.ABSENT: 10,
-            ObservedState.REDACTED: 10,
-            ObservedState.ANONYMIZED: 10,
-            ObservedState.DISABLED: 10,
-            ObservedState.ACTIVE: 5,
-            ObservedState.PRESENT: 5,
-            ObservedState.UNKNOWN: 1,
+        _SNAPSHOT_PRIORITY = {
+            EventKind.SNAPSHOT_PRESENT: 20,
+            EventKind.SNAPSHOT_ABSENT: 20,
+            EventKind.SNAPSHOT_REDACTED: 20,
+            EventKind.SNAPSHOT_ANONYMIZED: 20,
+            EventKind.DATA_FLOW_ACTIVE: 20,
+            EventKind.DATA_FLOW_DISABLED: 20,
+            EventKind.BACKUP_BLOCKED: 20,
+            EventKind.BACKUP_RESTORABLE: 20,
         }
+        _ACTIVITY_PRIORITY = 10
         _AUDIT_RECORD_PRIORITY = 1
 
         resource_map: Dict[tuple, Dict[str, Any]] = {}
@@ -394,9 +355,12 @@ class DecisionEngine:
             if not sys_id or not res_id:
                 continue
 
+            # Reject phantom service names as resource IDs
+            if res_id.endswith("_service") or res_id.endswith("_platform") or res_id == sys_id:
+                continue
+
             key = (sys_id, res_id)
 
-            # Determine observed state and priority from event kind
             is_audit_record = (event.kind == EventKind.AUDIT_RECORD)
             state_map = {
                 EventKind.SNAPSHOT_PRESENT: ObservedState.PRESENT,
@@ -410,29 +374,32 @@ class DecisionEngine:
             }
 
             observed = state_map.get(event.kind)
-            event_priority = _STATE_PRIORITY.get(observed, 5) if observed else _AUDIT_RECORD_PRIORITY
-
-            if observed is None:
+            if observed is not None:
+                event_priority = _SNAPSHOT_PRIORITY.get(event.kind, 20)
+            else:
                 if is_audit_record:
-                    # AUDIT_RECORD: only create entry if resource has no existing state
                     if key not in resource_map:
                         observed = ObservedState.PRESENT
                         event_priority = _AUDIT_RECORD_PRIORITY
                     else:
-                        continue  # Don't override existing state with audit trail
+                        continue
                 elif event.kind == EventKind.DELETE_OPERATION:
                     observed = ObservedState.ABSENT if event.reported_result == "SUCCESS" else ObservedState.PRESENT
+                    event_priority = _ACTIVITY_PRIORITY
                 elif event.kind == EventKind.REDACT_OPERATION:
                     observed = ObservedState.REDACTED if event.reported_result == "SUCCESS" else ObservedState.PRESENT
+                    event_priority = _ACTIVITY_PRIORITY
                 elif event.kind == EventKind.ANONYMIZE_OPERATION:
                     observed = ObservedState.ANONYMIZED if event.reported_result == "SUCCESS" else ObservedState.PRESENT
+                    event_priority = _ACTIVITY_PRIORITY
                 elif event.kind == EventKind.DISABLE_DATA_FLOW:
                     observed = ObservedState.DISABLED if event.reported_result == "SUCCESS" else ObservedState.ACTIVE
+                    event_priority = _ACTIVITY_PRIORITY
                 elif event.kind == EventKind.BLOCK_RESTORE:
                     observed = ObservedState.DISABLED if event.reported_result == "SUCCESS" else ObservedState.ACTIVE
+                    event_priority = _ACTIVITY_PRIORITY
                 else:
                     continue
-                event_priority = _STATE_PRIORITY.get(observed, 5)
 
             content = event.metadata.get("details", "") or event.description or ""
             if isinstance(event.metadata.get("identifiers"), list):
@@ -448,19 +415,23 @@ class DecisionEngine:
                 }
             else:
                 existing = resource_map[key]
-                existing_priority = existing.get("priority", 5)
-                # Update if higher priority, or same priority with later timestamp
+                existing_priority = existing.get("priority", 1)
                 if event_priority > existing_priority or (
                     event_priority == existing_priority
-                    and event.timestamp is not None
                     and (
-                        existing["timestamp"] is None
-                        or event.timestamp > existing["timestamp"]
+                        (existing["timestamp"] is None and event.timestamp is not None)
+                        or (
+                            existing["timestamp"] is not None
+                            and event.timestamp is not None
+                            and event.timestamp >= existing["timestamp"]
+                        )
                     )
                 ):
                     existing["observed_state"] = observed
                     existing["content"] = content
-                    existing["evidence_id"] = event.evidence_id or existing["evidence_id"]
+                    if event.evidence_id:
+                        if event.evidence_id.startswith("evidence_") or not existing["evidence_id"].startswith("evidence_"):
+                            existing["evidence_id"] = event.evidence_id
                     existing["timestamp"] = event.timestamp
                     existing["priority"] = event_priority
 

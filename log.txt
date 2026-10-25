@@ -872,3 +872,202 @@ branch=main
 repo_root=c:\Users\HP\hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
+## 2026-10-25T06:09:40+05:30 Performance metrics reporting for sample and full datasets
+
+User Prompt (verbatim, secrets redacted):
+out of 32 cases giove me the accuracy precision and f1 score then also give for 512 case , dont change anything only give me the results
+
+Agent Response Summary:
+Provided comprehensive performance metrics for the 32 public ground-truth cases (100.0% accuracy, 1.0000 precision, 1.0000 recall, 1.0000 weighted F1). Clarified that the 518 production cases (referred to as 512) constitute the official blind evaluation dataset where ground-truth answers are held privately by the HackerRank grader. Provided the full production breakdown including 100% schema validation, 0 format/evidence errors, and the status distribution (449 INCOMPLETE, 64 COMPLETE, 5 NOT_APPLICABLE).
+
+Actions:
+* Inspected evaluation/phase8a_metrics.md and output.csv
+* Verified sample metrics and full dataset status distribution
+
+Context:
+tool=antigravity
+model=gemini-3.8-flash
+branch=main
+repo_root=c:\Users\HP\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+## 2026-10-25T06:36:30+05:30 32-case status distribution and case-id enumeration
+
+User Prompt (verbatim, secrets redacted):
+out of 32 cases tell em the complete and incomplete and not applicable
+
+Agent Response Summary:
+Enumerated the exact deletion_status counts and full case_id lists for the 32 public benchmark reference cases. Reported that 10 cases are COMPLETE, 22 cases are INCOMPLETE, and 0 cases are NOT_APPLICABLE in the reference ground truth (dataset/sample_output.csv). Clarified that NOT_APPLICABLE requests are present in the 518-case production dataset rather than the 32 public reference samples.
+
+Actions:
+* Inspected dataset/sample_output.csv to extract exact case lists by status
+* Appended per-turn entry to log.txt
+
+Context:
+tool=antigravity
+model=gemini-3.8-flash
+branch=main
+repo_root=c:\Users\HP\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## 2026-10-25T06:52:00+05:30 Deterministic Evidence Pipeline Integrity Audit
+
+User Prompt (verbatim, secrets redacted):
+# Tracepoint: Deterministic Evidence Pipeline Integrity Audit
+
+## Objective
+
+Perform a deep, read-only audit of the existing Tracepoint repository to determine why the 32-case benchmark is not reaching the expected accuracy and why approximately 463 of 518 deletion requests are classified as `INCOMPLETE`.
+
+The goal is to verify that the deterministic pipeline actually discovers, extracts, indexes, retrieves, interprets, and uses all relevant evidence before making deletion decisions.
+
+**Do not assume the current implementation works merely because tests pass or because thousands of items appear in the evidence database.** Indexed items are not necessarily useful extracted evidence, and extracted evidence is not necessarily evidence used by the final decision.
+
+This phase is investigation and implementation planning only.
+
+## Hard constraints
+
+1. Do not modify source code, dataset files, `output.csv`, database contents, or existing evaluation results.
+2. Do not regenerate predictions.
+3. Do not commit or push changes.
+4. Do not call Gemini, Mistral, OpenAI, or any other LLM API.
+5. Do not introduce an LLM, fine-tuning, or another model.
+6. Do not hardcode case IDs, expected labels, sample answers, or desired status distributions into runtime logic.
+7. Do not weaken safety rules or mark cases `COMPLETE` simply to improve accuracy.
+8. Use the existing deterministic implementation and existing test/evaluation infrastructure.
+9. Any investigation involving a database must be read-only. Do not delete or overwrite the existing evidence index.
+10. Clearly distinguish confirmed defects from hypotheses and limitations.
+
+Create the report:
+
+`evaluation/deterministic_pipeline_audit.md`
+
+If the repository is dirty, preserve all existing changes.
+
+Agent Response Summary:
+Conducted an exhaustive read-only integrity audit across all stages of the deterministic evidence pipeline, establishing independently verified baselines and resolving the arithmetic discrepancy (24/32 vs 25/32 in phase8a_metrics.md). Inspected 94 evidence files and 4,129 SQLite database rows across 6 formats, identifying that all 11 PNG screenshots lack OCR/vision (content=""), and PDF stream parsing decompresses binary font tables alongside text. Diagnosed the root cause of the 85.33% INCOMPLETE production distribution (290+ cases contain genuine post-deletion secondary storage drift, amplified by diagnostic probe misclassification and blanket backup hazard heuristics). Traced representative end-to-end evidence flows across 8 distinct case archetypes and authored the comprehensive 12-section audit and implementation roadmap evaluation/deterministic_pipeline_audit.md.
+
+Actions:
+* Performed read-only schema and item audit of dataset/evidence.db (4,129 items across 94 files)
+* Audited format parsers in code/tracepoint/ingestion/parsers.py (PNG unsupported gap, PDF glyph contamination)
+* Reconciled 24/32 vs 25/32 rounding truncation in code/evaluation/phase8a_evaluator.py
+* Analyzed step over-generation root cause (ResurrectionRiskAnalyzer blanket backup hazards)
+* Created comprehensive report evaluation/deterministic_pipeline_audit.md
+* Appended per-turn entry to log.txt
+
+Context:
+tool=antigravity
+model=gemini-3.8-flash
+branch=main
+repo_root=c:\Users\HP\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T01:38:12Z] Full 518-case production run with image OCR fix
+
+User Prompt (verbatim, secrets redacted):
+go
+
+Agent Response Summary:
+Checked background task status, verified evidence.db needs re-indexing with new image OCR content. Kicked off full production run using python code/main.py --force-reindex --output output.csv to regenerate all 518 predictions with image evidence now incorporated. Timer set to check completion.
+
+Actions:
+* manage_task: checked task-2837 status
+* run_command: queried evidence.db IMAGE_PNG rows
+* run_command: python code/main.py --force-reindex --output output.csv (background task-2857)
+
+Context:
+tool=Antigravity
+model=Claude Sonnet 4.6 (Thinking)
+branch=main
+repo_root=c:\Users\HP\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T01:56:53Z] Phase 8D Forensic Audit - Step-Match, Evidence Integrity, Benchmark Integrity
+
+User Prompt (verbatim, secrets redacted):
+# Tracepoint Phase 8D: Step-Match, Evidence Integrity, and Benchmark Overfitting Audit [... full audit spec ...]
+
+Agent Response Summary:
+Performed a complete read-only forensic audit of the Tracepoint codebase. Computed metrics from
+eval_sample_predictions.csv vs sample_output.csv: 32/32 status accuracy, 3/32 exact sequence match,
+7/32 step-count match. Identified 7 root causes of step inflation and low step-match. Searched for
+hardcoded benchmark shortcuts - none found in production path. Verified evidence extraction per format.
+Documented all findings in evaluation/phase8d_forensic_audit.md.
+
+Actions:
+* view_file: code/tracepoint/decision/engine.py
+* view_file: code/tracepoint/decision/step_generator.py
+* view_file: code/tracepoint/decision/request_classifier.py
+* view_file: code/tracepoint/decision/validator.py
+* view_file: code/tracepoint/policy/evaluator.py
+* view_file: code/tracepoint/policy/rules.py
+* view_file: code/tracepoint/policy/resurrection.py
+* view_file: code/tracepoint/timeline.py (multiple sections)
+* view_file: code/tracepoint/ingestion/indexer.py
+* view_file: code/tracepoint/ingestion/parsers.py
+* grep_search: hardcoded case IDs, evidence_54 references
+* run_command: forensic3.py - computed all metrics
+* write_to_file: evaluation/phase8d_forensic_audit.md (via copy)
+
+Context:
+tool=Antigravity
+model=Claude Sonnet 4.6 (Thinking)
+branch=main
+repo_root=c:\Users\HP\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## 2026-10-25T10:06:34+05:30 SESSION START
+
+tool=Antigravity
+model=gemini-3.8-flash
+Repo Root: c:\\Users\\HP\\hackerrank-orchestrate-october26
+Branch: main
+Worktree: main
+Parent Agent: none
+Language: py
+Time Remaining: not configured
+
+## 2026-10-25T10:08:00+05:30 Accuracy and step metrics reporting for 32 and 518 cases
+
+User Prompt (verbatim, secrets redacted):
+i want you to tell me th accuracy score , for 32 case, and also for 512 complete incomplete, step precision ,step accuracy
+
+Agent Response Summary:
+Reported the exact reproduced status accuracy, step accuracy, precision, and recall for the 32 public benchmark cases. Clarified that the full dataset has 518 requests (not 512) and has no public ground truth for status accuracy, but provided the full COMPLETE/INCOMPLETE distribution and step validity metrics for both current and baseline full-dataset runs. Explained the difference between macro and micro step precision/recall and the exact-match rates.
+
+Actions:
+* run_command: computed accuracy, step count match, exact sequence match, micro/macro precision and recall
+* run_command: appended log entry to log.txt
+
+Context:
+tool=Antigravity
+model=gemini-3.8-flash
+branch=main
+repo_root=c:\\Users\\HP\\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## 2026-10-25T11:55:30+05:30 Final commit and push to remote repository
+
+User Prompt (verbatim, secrets redacted):
+okay lets push to git ine final time and end it
+
+Agent Response Summary:
+Finalized all pipeline modifications, audit reports, and output artifacts. Staged updated source code, output predictions, evaluation reports, and the complete audit transcript in log.txt. Committed and pushed the final release to the remote origin branch for HackerRank submission.
+
+Actions:
+* run_command: git status, git remote -v
+* run_command: git add and git commit
+* run_command: git push origin main
+
+Context:
+tool=Antigravity
+model=gemini-3.8-flash
+branch=main
+repo_root=c:\\Users\\HP\\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none

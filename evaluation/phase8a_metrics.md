@@ -44,10 +44,10 @@ No mismatches — all predictions correct.
 ## 6. Step-Level Metrics
 
 - **Exact step-sequence accuracy:** 0.0938 (3/32)
-- **Exact step-count accuracy:** 0.2188 (7/32)
-- **Aggregate step precision:** 0.1951
-- **Aggregate step recall:** 0.8290
-- **Aggregate step F1:** 0.3159
+- **Exact step-count accuracy:** 0.1250 (4/32)
+- **Aggregate step precision:** 0.6364
+- **Aggregate step recall:** 0.6528
+- **Aggregate step F1:** 0.6445
 
 ### Step Matching Rule
 
@@ -57,28 +57,28 @@ A predicted step matches an expected step when they share the same `(system_id, 
 
 | Operation | Precision | Recall | F1 | TP | FP | FN |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `ANONYMIZE_RECORD` | 1.0000 | 1.0000 | 1.0000 | 5 | 0 | 0 |
-| `BLOCK_RESTORE` | 0.0484 | 1.0000 | 0.0923 | 3 | 59 | 0 |
-| `DELETE_RECORD` | 0.2159 | 0.9048 | 0.3486 | 19 | 69 | 2 |
+| `ANONYMIZE_RECORD` | 0.8333 | 1.0000 | 0.9091 | 5 | 1 | 0 |
+| `BLOCK_RESTORE` | 0.6000 | 1.0000 | 0.7500 | 3 | 2 | 0 |
+| `DELETE_RECORD` | 0.6400 | 0.7619 | 0.6957 | 16 | 9 | 5 |
 | `DISABLE_DATA_FLOW` | 0.8571 | 1.0000 | 0.9231 | 6 | 1 | 0 |
-| `REDACT_RECORD` | 0.1250 | 1.0000 | 0.2222 | 6 | 42 | 0 |
+| `REDACT_RECORD` | 0.4286 | 1.0000 | 0.6000 | 6 | 8 | 0 |
 | `REPORT_ACTIVE_DATA_FLOW` | 0.8571 | 1.0000 | 0.9231 | 6 | 1 | 0 |
-| `REPORT_EXPOSED_PII` | 0.2075 | 1.0000 | 0.3438 | 11 | 42 | 0 |
-| `REPORT_REMAINING_RECORD` | 0.2159 | 0.9048 | 0.3486 | 19 | 69 | 2 |
-| `REPORT_RESTORE_RISK` | 0.0484 | 1.0000 | 0.0923 | 3 | 59 | 0 |
-| `VERIFY_DATA_FLOW_DISABLED` | 0.4500 | 1.0000 | 0.6207 | 9 | 11 | 0 |
-| `VERIFY_RECORD_ABSENT` | 0.3380 | 0.9600 | 0.5000 | 48 | 94 | 2 |
-| `VERIFY_RECORD_ANONYMIZED` | 0.8571 | 0.5000 | 0.6316 | 6 | 1 | 6 |
-| `VERIFY_RECORD_PRESENT` | 0.2353 | 1.0000 | 0.3810 | 24 | 78 | 0 |
-| `VERIFY_RECORD_REDACTED` | 0.1852 | 1.0000 | 0.3125 | 10 | 44 | 0 |
-| `VERIFY_RESTORE_BLOCKED` | 0.0800 | 1.0000 | 0.1481 | 6 | 69 | 0 |
+| `REPORT_EXPOSED_PII` | 0.5500 | 1.0000 | 0.7097 | 11 | 9 | 0 |
+| `REPORT_REMAINING_RECORD` | 0.6400 | 0.7619 | 0.6957 | 16 | 9 | 5 |
+| `REPORT_RESTORE_RISK` | 0.6000 | 1.0000 | 0.7500 | 3 | 2 | 0 |
+| `VERIFY_DATA_FLOW_DISABLED` | 0.9000 | 1.0000 | 0.9474 | 9 | 1 | 0 |
+| `VERIFY_RECORD_ABSENT` | 0.7714 | 0.5400 | 0.6353 | 27 | 8 | 23 |
+| `VERIFY_RECORD_ANONYMIZED` | 0.8333 | 0.4167 | 0.5556 | 5 | 1 | 7 |
+| `VERIFY_RECORD_PRESENT` | 1.0000 | 0.2917 | 0.4516 | 7 | 0 | 17 |
+| `VERIFY_RECORD_REDACTED` | 0.5556 | 1.0000 | 0.7143 | 10 | 8 | 0 |
+| `VERIFY_RESTORE_BLOCKED` | 0.7500 | 1.0000 | 0.8571 | 6 | 2 | 0 |
 
 ## 7. Evidence and Structural Integrity
 
-- **Total evidence references:** 263
-- **Valid references:** 263
+- **Total evidence references:** 84
+- **Valid references:** 84
 - **Invalid/unsupported references:** 0
-- **Empty references (expected for remediation/proposed):** 557
+- **Empty references (expected for remediation/proposed):** 114
 - **Remediation incorrectly represented as completed:** 0
 - **Missing verification evidence (COMPLETE cases):** 0
 

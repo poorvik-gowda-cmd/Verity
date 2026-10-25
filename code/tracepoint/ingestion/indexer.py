@@ -258,9 +258,9 @@ class EvidenceIndex:
 
         results: List[SearchResult] = []
         for r in rows:
-            # Generate snippet from content
+            # Generate snippet from content (preserve full structured records)
             content = r["content"]
-            snippet = content[:200] + "..." if len(content) > 200 else content
+            snippet = content[:2000] if len(content) > 2000 else content
 
             identifiers = json.loads(r["identifiers"])
             metadata = json.loads(r["metadata_json"])
