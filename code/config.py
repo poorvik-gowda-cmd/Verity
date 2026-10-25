@@ -54,8 +54,8 @@ class ProjectConfig:
 
     # Gemini API configuration
     gemini_api_key: Optional[str] = None
-    gemini_model: str = "gemini-2.5-flash"
-    gemini_timeout_seconds: float = 10.0
+    gemini_model: str = "gemini-3.8-flash"
+    gemini_timeout_seconds: float = 15.0
     gemini_max_retries: int = 1
 
     @classmethod
@@ -82,8 +82,8 @@ class ProjectConfig:
         evidence = dataset / "evidence"
 
         api_key = os.getenv("GEMINI_API_KEY")
-        model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
-        timeout_str = os.getenv("GEMINI_TIMEOUT_SECONDS", "10.0")
+        model = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+        timeout_str = os.getenv("GEMINI_TIMEOUT_SECONDS", "15.0")
         retries_str = os.getenv("GEMINI_MAX_RETRIES", "1")
 
         try:

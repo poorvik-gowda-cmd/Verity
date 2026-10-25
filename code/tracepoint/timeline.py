@@ -447,6 +447,7 @@ class TimelineBuilder:
                             "source_type": hit.source_type.value,
                             "source_path": hit.source_path,
                             "identifiers": hit.identifiers,
+                            "snippet": hit.snippet,
                         },
                     )
                 )
@@ -457,6 +458,19 @@ class TimelineBuilder:
         content_lc = hit.snippet.lower()
         sys_id = (hit.system_id or "").lower()
         res_id = (hit.resource_id or "").lower()
+
+        # IMPORTANT: _started log entries are operation audit trails, not state snapshots.
+        # Only _completed entries carry the actual state.
+        if any(k in content_lc for k in [
+            'event=profile_lookup_started',
+            'event=analytics_profile_read_started',
+            'event=support_ticket_read_started',
+            'event=audit_record_read_started',
+            'event=connector_config_read_started',
+            '_read_started',
+            '_lookup_started',
+        ]):
+            return EventKind.AUDIT_RECORD  # Just a read audit entry, not a state snapshot
 
         # Tombstones in identity service are REDACTED when direct PII is removed
         if "tombstone" in res_id or "identity_service" in sys_id:
@@ -471,22 +485,35 @@ class TimelineBuilder:
         ]):
             return EventKind.SNAPSHOT_ABSENT
 
-        # Redacted indicators
-        if any(k in content_lc for k in [
-            '"redacted"', '"status": "redacted"', '"pii_redacted": true',
-            '"requester_email": null', '"name": null, "email": null',
-            'requester_email=null', 'pii_redacted=true'
-        ]):
-            return EventKind.SNAPSHOT_REDACTED
-
-        # Anonymized indicators
+        # Anonymized indicators (check before redacted to catch analytics anonymization patterns)
         if any(k in content_lc for k in [
             '"anonymized"', '"status": "anonymized"', '"is_anonymized": true',
-            '"subject_reference": null', '"customer_reference": null, "email": null',
-            '"customer_reference": null', 'customer_reference=null email=null',
-            'customer_reference=null'
+            '"subject_reference": null', 'customer_reference=null email=null',
+            'customer_reference=null',
         ]):
             return EventKind.SNAPSHOT_ANONYMIZED
+        # Analytics-specific anonymization: customer_reference=null with no PII
+        if 'analytics_profile_read_completed' in content_lc and 'customer_reference=null' in content_lc:
+            return EventKind.SNAPSHOT_ANONYMIZED
+        if '"customer_reference": null' in content_lc and ('"email": null' in content_lc or 'email=null' in content_lc):
+            return EventKind.SNAPSHOT_ANONYMIZED
+        # Analytics JSON record with all PII fields nulled out = anonymized
+        if ('analytics' in sys_id or 'analytics' in res_id) and (
+            '"user_id": null' in content_lc or '"email": null' in content_lc
+        ):
+            # Only anonymized if no real PII present — both user_id and email should be null
+            if '"user_id": null' in content_lc and '"email": null' in content_lc:
+                return EventKind.SNAPSHOT_ANONYMIZED
+
+
+        # Redacted indicators
+        if any(k in content_lc for k in [
+            '[redacted]', '"redacted"', '"status": "redacted"', '"pii_redacted": true',
+            '"requester_email": null', '"requester_name": null', '"name": null, "email": null',
+            'requester_email=null', 'requester_name=null', 'pii_redacted=true',
+            'support_ticket_read_completed',  # Support tickets with null requester = redacted
+        ]):
+            return EventKind.SNAPSHOT_REDACTED
 
         # Backup blocked
         if any(k in content_lc for k in [
@@ -498,9 +525,16 @@ class TimelineBuilder:
         # Data flow disabled
         if any(k in content_lc for k in [
             '"status": "disabled"', '"active": false', '"enabled": false',
-            'enabled=false', 'last_delivery_status": "stopped"', 'last_delivery_status=stopped', 'stopped'
+            'enabled=false', 'last_delivery_status=stopped',
         ]):
             return EventKind.DATA_FLOW_DISABLED
+
+        # Data flow active
+        if any(k in content_lc for k in [
+            'enabled=true', '"active": true', 'last_delivery_status=delivered',
+        ]):
+            if 'data_flow' in res_id or 'integration' in sys_id:
+                return EventKind.DATA_FLOW_ACTIVE
 
         # Security / audit record
         if "security" in sys_id or "audit_record" in res_id:
@@ -597,6 +631,30 @@ class TimelineBuilder:
                 expanded_terms.append(act.resource_id)
 
         evidence_events = self._evidence_events_for_terms(expanded_terms, audit_dt)
+
+        # Second-pass: expand terms with resource IDs and trace IDs discovered in first evidence pass,
+        # then re-search to pick up correlated log lines (e.g. profile_lookup_completed
+        # that references a resource_id found via profile_lookup_started, or connector_heartbeat
+        # that shares trace_id with connector_config_read).
+        second_pass_terms: List[str] = []
+        for ev in evidence_events:
+            if ev.resource_id and ev.resource_id not in expanded_terms:
+                second_pass_terms.append(ev.resource_id)
+                expanded_terms.append(ev.resource_id)
+            snippet = ev.metadata.get("snippet") or ev.description or ""
+            for tid in re.findall(r'trace_id=([a-zA-Z0-9_\-]+)', snippet):
+                if tid not in expanded_terms:
+                    second_pass_terms.append(tid)
+                    expanded_terms.append(tid)
+        if second_pass_terms:
+            second_pass_events = self._evidence_events_for_terms(second_pass_terms, audit_dt)
+            # Merge, dedup by (evidence_id, locator)
+            existing_keys = {(e.evidence_id, e.locator) for e in evidence_events}
+            for ev in second_pass_events:
+                if (ev.evidence_id, ev.locator) not in existing_keys:
+                    evidence_events.append(ev)
+                    existing_keys.add((ev.evidence_id, ev.locator))
+
 
         # Negative proof check for account_service: customer_accounts_failover_replica_20260902.sql (evidence_54)
         account_id = None
@@ -866,10 +924,31 @@ class ContradictionDetector:
         }
         for e in timeline.events:
             if e.kind in failed_kinds and e.reported_result in ("FAILED", "PARTIAL"):
+                # PARTIAL result: check whether independent evidence shows the resource is
+                # actually absent/redacted/anonymized — if so, this is only an uncertain risk.
+                # A PARTIAL delete that left no residual data is not a confirmed violation.
+                result = e.reported_result
+                is_confirmed = result == "FAILED"  # FAILED is always confirmed; PARTIAL is uncertain
+                if result == "PARTIAL" and e.resource_id:
+                    # Check if later evidence shows the resource is absent or compliant
+                    res_lc = (e.resource_id or "").lower()
+                    absent_or_compliant = [
+                        ev for ev in timeline.events
+                        if ev.kind in (
+                            EventKind.SNAPSHOT_ABSENT, EventKind.SNAPSHOT_REDACTED,
+                            EventKind.SNAPSHOT_ANONYMIZED,
+                        )
+                        and (ev.resource_id or "").lower() == res_lc
+                        and ev.timestamp is not None
+                        and (e.timestamp is None or ev.timestamp >= e.timestamp)
+                    ]
+                    if absent_or_compliant:
+                        # Post-operation evidence shows compliant state; PARTIAL is resolved
+                        continue
                 out.append(
                     Contradiction(
                         contradiction_type=ContradictionType.OPERATION_FAILED,
-                        is_confirmed=True,
+                        is_confirmed=is_confirmed,
                         description=(
                             f"Operation {e.metadata.get('event_type', e.kind.value)} "
                             f"on '{e.resource_id}' in '{e.system_id}' "

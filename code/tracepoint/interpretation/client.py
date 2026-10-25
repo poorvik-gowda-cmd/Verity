@@ -60,7 +60,7 @@ class GeminiInterpreter:
             self.api_key = config.gemini_api_key or os.getenv("GEMINI_API_KEY")
         else:
             self.api_key = api_key
-        self.model = model or config.gemini_model or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        self.model = model or config.gemini_model or os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
         self.timeout_seconds = (
             timeout_seconds
             if timeout_seconds is not None
@@ -292,3 +292,64 @@ class GeminiInterpreter:
             cached=False,
             error_message=f"Gemini API failed after {attempts} attempts ({last_error}); used fallback.",
         )
+
+    def interpret_image(
+        self,
+        image_path: Path,
+        evidence_id: str,
+        default_captured_at: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Extract structured textual claims from an image screenshot using Gemini Multimodal Vision."""
+        start_time = time.time()
+        cache_key = f"img_{evidence_id}_{image_path.name}"
+
+        # Check cache
+        if hasattr(self.cache, "_memory_cache") and cache_key in self.cache._memory_cache:
+            self.usage_tracker.record_call(input_tokens=0, output_tokens=0, latency_ms=0.0, cached=True)
+            return self.cache._memory_cache[cache_key]
+
+        extracted: Dict[str, Any] = {
+            "evidence_id": evidence_id,
+            "text": f"Image screenshot: {image_path.stem}",
+            "system_id": None,
+            "resource_id": None,
+            "identifiers": [],
+            "status": "PARSED",
+        }
+
+        if not self.is_available or genai is None or types is None:
+            return extracted
+
+        try:
+            image_data = image_path.read_bytes()
+            image_part = types.Part.from_bytes(data=image_data, mime_type="image/png")
+            prompt = (
+                "You are an evidence audit parser. Inspect this system console or support screenshot. "
+                "Extract all visible text, including: system name, resource IDs (e.g. account_*, ticket_*, backup_*), "
+                "user identifiers (emails, user IDs, phones), and status/state (e.g. active, deleted, redacted). "
+                "Output concise text summarizing the factual contents."
+            )
+            response = self._client.models.generate_content(
+                model=self.model,
+                contents=[image_part, prompt],
+            )
+            call_latency = (time.time() - start_time) * 1000.0
+            tokens_in = getattr(response.usage_metadata, "prompt_token_count", 0) or 0
+            tokens_out = getattr(response.usage_metadata, "candidates_token_count", 0) or 0
+            self.usage_tracker.record_call(
+                input_tokens=tokens_in,
+                output_tokens=tokens_out,
+                latency_ms=call_latency,
+                cached=False,
+            )
+            extracted["text"] = (response.text or "").strip() or extracted["text"]
+
+            # Store in cache
+            if hasattr(self.cache, "_memory_cache"):
+                self.cache._memory_cache[cache_key] = extracted
+                if self.cache.cache_file:
+                    self.cache._save_to_file()
+        except Exception as exc:
+            logger.warning("Gemini image extraction failed for %s: %s", image_path.name, exc)
+
+        return extracted

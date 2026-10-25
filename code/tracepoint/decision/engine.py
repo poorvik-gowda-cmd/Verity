@@ -366,8 +366,26 @@ class DecisionEngine:
     def _derive_resource_states(
         self, timeline: Timeline
     ) -> Dict[tuple, Dict[str, Any]]:
-        """Derive the latest observed state for each resource from timeline events."""
-        # Group by (system_id, resource_id)
+        """Derive the observed state for each resource from timeline events.
+
+        Priority rules:
+        - SNAPSHOT_ABSENT/REDACTED/ANONYMIZED/DISABLED are 'resolved' states (priority 10).
+        - SNAPSHOT_PRESENT, DATA_FLOW_ACTIVE, BACKUP_RESTORABLE are 'active' states (priority 5).
+        - AUDIT_RECORD events are read-operation trails, not state evidence (priority 1).
+          They only create an entry if the resource has no existing state.
+        - For same priority: later timestamps win.
+        """
+        _STATE_PRIORITY = {
+            ObservedState.ABSENT: 10,
+            ObservedState.REDACTED: 10,
+            ObservedState.ANONYMIZED: 10,
+            ObservedState.DISABLED: 10,
+            ObservedState.ACTIVE: 5,
+            ObservedState.PRESENT: 5,
+            ObservedState.UNKNOWN: 1,
+        }
+        _AUDIT_RECORD_PRIORITY = 1
+
         resource_map: Dict[tuple, Dict[str, Any]] = {}
 
         for event in timeline.events:
@@ -378,7 +396,8 @@ class DecisionEngine:
 
             key = (sys_id, res_id)
 
-            # Determine observed state from event kind
+            # Determine observed state and priority from event kind
+            is_audit_record = (event.kind == EventKind.AUDIT_RECORD)
             state_map = {
                 EventKind.SNAPSHOT_PRESENT: ObservedState.PRESENT,
                 EventKind.SNAPSHOT_ABSENT: ObservedState.ABSENT,
@@ -388,39 +407,32 @@ class DecisionEngine:
                 EventKind.DATA_FLOW_DISABLED: ObservedState.DISABLED,
                 EventKind.BACKUP_BLOCKED: ObservedState.DISABLED,
                 EventKind.BACKUP_RESTORABLE: ObservedState.ACTIVE,
-                EventKind.AUDIT_RECORD: ObservedState.PRESENT,
             }
 
             observed = state_map.get(event.kind)
+            event_priority = _STATE_PRIORITY.get(observed, 5) if observed else _AUDIT_RECORD_PRIORITY
+
             if observed is None:
-                # For activity events, derive from reported_result
-                if event.kind == EventKind.DELETE_OPERATION:
-                    if event.reported_result == "SUCCESS":
-                        observed = ObservedState.ABSENT
-                    else:
+                if is_audit_record:
+                    # AUDIT_RECORD: only create entry if resource has no existing state
+                    if key not in resource_map:
                         observed = ObservedState.PRESENT
+                        event_priority = _AUDIT_RECORD_PRIORITY
+                    else:
+                        continue  # Don't override existing state with audit trail
+                elif event.kind == EventKind.DELETE_OPERATION:
+                    observed = ObservedState.ABSENT if event.reported_result == "SUCCESS" else ObservedState.PRESENT
                 elif event.kind == EventKind.REDACT_OPERATION:
-                    if event.reported_result == "SUCCESS":
-                        observed = ObservedState.REDACTED
-                    else:
-                        observed = ObservedState.PRESENT
+                    observed = ObservedState.REDACTED if event.reported_result == "SUCCESS" else ObservedState.PRESENT
                 elif event.kind == EventKind.ANONYMIZE_OPERATION:
-                    if event.reported_result == "SUCCESS":
-                        observed = ObservedState.ANONYMIZED
-                    else:
-                        observed = ObservedState.PRESENT
+                    observed = ObservedState.ANONYMIZED if event.reported_result == "SUCCESS" else ObservedState.PRESENT
                 elif event.kind == EventKind.DISABLE_DATA_FLOW:
-                    if event.reported_result == "SUCCESS":
-                        observed = ObservedState.DISABLED
-                    else:
-                        observed = ObservedState.ACTIVE
+                    observed = ObservedState.DISABLED if event.reported_result == "SUCCESS" else ObservedState.ACTIVE
                 elif event.kind == EventKind.BLOCK_RESTORE:
-                    if event.reported_result == "SUCCESS":
-                        observed = ObservedState.DISABLED
-                    else:
-                        observed = ObservedState.ACTIVE
+                    observed = ObservedState.DISABLED if event.reported_result == "SUCCESS" else ObservedState.ACTIVE
                 else:
-                    continue  # Skip other event types
+                    continue
+                event_priority = _STATE_PRIORITY.get(observed, 5)
 
             content = event.metadata.get("details", "") or event.description or ""
             if isinstance(event.metadata.get("identifiers"), list):
@@ -432,20 +444,29 @@ class DecisionEngine:
                     "content": content,
                     "evidence_id": event.evidence_id or "",
                     "timestamp": event.timestamp,
+                    "priority": event_priority,
                 }
             else:
                 existing = resource_map[key]
-                # Later events override earlier events (timeline is chronological)
-                if event.timestamp and (
-                    existing["timestamp"] is None
-                    or event.timestamp >= existing["timestamp"]
+                existing_priority = existing.get("priority", 5)
+                # Update if higher priority, or same priority with later timestamp
+                if event_priority > existing_priority or (
+                    event_priority == existing_priority
+                    and event.timestamp is not None
+                    and (
+                        existing["timestamp"] is None
+                        or event.timestamp > existing["timestamp"]
+                    )
                 ):
                     existing["observed_state"] = observed
                     existing["content"] = content
                     existing["evidence_id"] = event.evidence_id or existing["evidence_id"]
                     existing["timestamp"] = event.timestamp
+                    existing["priority"] = event_priority
 
         return resource_map
+
+
 
     def _analyze_resurrection_risks(
         self, timeline: Timeline, audit_at: str
